@@ -1,4 +1,4 @@
-package com.project.secretdiary.dto;
+package com.project.secretdiary.dto.request;
 
 import com.project.secretdiary.entity.MemberEntity;
 import lombok.*;
@@ -6,13 +6,12 @@ import lombok.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import java.util.List;
 
 @Builder
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberDto {
+public class MemberRequest {
     private Long id;
     @NotBlank(message = "아이디를 입력하세요.")
     @Pattern(regexp = "^[a-zA-Z\\d_]{4,15}$",message = "아이디는 4~15자의 영어,한글,숫자,'_'를 입력하세요.")
@@ -31,7 +30,7 @@ public class MemberDto {
     private String password;
 
 
-    public MemberDto(MemberEntity member) {
+    public MemberRequest(MemberEntity member) {
         id = member.getId();
         userId = member.getUserId();
         name = member.getName();

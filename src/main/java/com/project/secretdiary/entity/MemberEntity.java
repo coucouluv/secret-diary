@@ -27,7 +27,7 @@ public class MemberEntity {
 
     @Column(length = 100)
     private String statusMessage;
-    private String url; 
+    private String url;
 
     @Builder
     public MemberEntity(final Long id, final String userId, final String name, final String email,

@@ -1,6 +1,6 @@
 package com.project.secretdiary.controller;
 
-import com.project.secretdiary.dto.MemberDto;
+import com.project.secretdiary.dto.request.MemberRequest;
 import com.project.secretdiary.service.MemberRegisterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +19,8 @@ public class MemberRegisterController {
 
     @PostMapping("")
     public ResponseEntity<Void> memberRegister(
-            final @RequestBody @Valid MemberDto memberDto) {
-        memberRegisterService.join(memberDto);
+            final @RequestBody @Valid MemberRequest memberRequest) {
+        memberRegisterService.join(memberRequest);
         return ResponseEntity.ok().build();
     }
 
