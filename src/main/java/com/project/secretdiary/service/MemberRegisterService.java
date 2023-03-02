@@ -17,7 +17,7 @@ public class MemberRegisterService {
     private final DuplicateMemberService duplicateMemberService;
     private final PasswordEncoder passwordEncoder;
 
-    public void join(MemberRequest memberRequest) {
+    public Long join(MemberRequest memberRequest) {
         validateDuplicateMember(memberRequest);
         MemberEntity member = MemberEntity.builder()
                 .userId(memberRequest.getUserId())
@@ -25,7 +25,7 @@ public class MemberRegisterService {
                 .name(memberRequest.getName())
                 .email(memberRequest.getEmail())
                 .build();
-        memberRepository.save(member);
+        return memberRepository.save(member).getId();
 
     }
 
