@@ -1,5 +1,6 @@
 package com.project.secretdiary.jwt;
 
+import com.project.secretdiary.dto.response.TokenResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -54,7 +55,7 @@ public class JwtTokenProvider {
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
 
-        TokenResponse tokenResponse = new TokenResponse(accessToken,refreshToken);
+        TokenResponse tokenResponse = new TokenResponse(accessToken,refreshToken,reExpireTime);
         return tokenResponse;
     }
 
