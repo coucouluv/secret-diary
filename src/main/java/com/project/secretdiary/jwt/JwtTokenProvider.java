@@ -29,15 +29,15 @@ public class JwtTokenProvider {
 
     @Value("${security.jwt.token.refresh-toekn-expire-length}")
     private long reExpireTime;
-    private final UserDetailsService userDetailsService;
+    private final CustomUserDetailsService userDetailsService;
 
     @PostConstruct
     protected void init() {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public TokenResponse createToken(String userId) {
-        Claims claims = Jwts.claims().setSubject(userId);
+    public TokenResponse createToken(String id) {
+        Claims claims = Jwts.claims().setSubject(id);
 
         Date now = new Date();
         Date expiresIn = new Date(now.getTime()+acExpireTime);
@@ -60,11 +60,11 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(getUserId(token));
+        UserDetails userDetails = userDetailsService.loadUserById(Long.parseLong(getId(token)));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    public String getUserId(String token) {
+    public String getId(String token) {
         return Jwts.parser().setSigningKey(secretKey)
                 .parseClaimsJws(token).getBody().getSubject();
     }
