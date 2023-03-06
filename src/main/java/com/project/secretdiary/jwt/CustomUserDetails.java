@@ -11,9 +11,13 @@ import java.util.Collections;
 
 @Data
 public class CustomUserDetails implements UserDetails {
-    private MemberEntity member;
+    private Long id;
+    private String userId;
+    private String password;
     public CustomUserDetails(MemberEntity member) {
-        this.member = member;
+        this.id = member.getId();
+        this.userId = member.getUserId();
+        this.password = member.getPassword();
     }
 
     @Override
@@ -23,12 +27,16 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return member.getPassword();
+        return this.password;
     }
 
     @Override
     public String getUsername() {
-        return member.getUserId();
+        return this.userId;
+    }
+
+    public String getName() {
+        return String.valueOf(this.id);
     }
 
     @Override
