@@ -1,6 +1,6 @@
 package com.project.secretdiary.entity;
 
-import com.project.secretdiary.dto.ProfileDto;
+import com.project.secretdiary.dto.request.ProfileRequest;
 import lombok.*;
 
 import javax.persistence.*;
@@ -41,16 +41,16 @@ public class MemberEntity {
         this.url = url;
     }
 
-    public void changePassword(String password) {
+    public void changePassword(final String password) {
         this.password = password;
     }
 
-    public void changeProfile(ProfileDto profileDto) {
-        this.statusMessage = profileDto.getStatusMessage();
-        this.url = profileDto.getUrl();
+    public void changeProfile(final ProfileRequest profileRequest) {
+        this.statusMessage = profileRequest.getStatusMessage();
+        this.url = profileRequest.getUrl();
     }
 
-    public boolean isSameEmail(String email) {
+    public boolean isSameEmail(final String email) {
         return this.email.equals(email);
     }
 
