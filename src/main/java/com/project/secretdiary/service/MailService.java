@@ -13,7 +13,7 @@ public class MailService {
     private final JavaMailSender mailSender;
     @Value("${spring.mail.username}")
     private String adminEmail;
-    
+
     public void sendMail(final MailRequest mailRequest) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(mailRequest.getAddress());
