@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -23,14 +25,14 @@ public class MemberController {
 
     @PostMapping("/info/password")
     public ResponseEntity<Void> updatePassword(@CurrentUser LoginMember loginMember,
-                                               @RequestBody final ChangePwdRequest changePwdRequest) {
+                                               @RequestBody @Valid final ChangePwdRequest changePwdRequest) {
         memberService.updatePassword(loginMember.getId(), changePwdRequest);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/info/profile")
     public ResponseEntity<Void> updateProfile(@CurrentUser LoginMember loginMember,
-                                              @RequestBody final ProfileRequest profileRequest) {
+                                              @RequestBody @Valid final ProfileRequest profileRequest) {
         memberService.updateProfile(loginMember.getId(), profileRequest);
         return ResponseEntity.ok().build();
     }
