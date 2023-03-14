@@ -10,9 +10,9 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChangePwdRequest {
-    @NotBlank
+    @NotBlank(message = "현재 비밀번호를 입력하세요.")
     private String password;
 
-    @NotBlank
+    @NotBlank(message = "변경할 비밀번호를 입력하세요.")
     private String changePassword;
 }
