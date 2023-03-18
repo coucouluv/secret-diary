@@ -25,11 +25,11 @@ public class DiaryEntity {
     private MemberEntity member;;
 
     @Column(nullable = false, length = 50)
-    private String title; //제목
+    private String title;
 
     @Column(nullable = false, length = 500)
-    private String text; //다이어리 내용
-    private String url; //다이어리 사진
+    private String text;
+    private String url; 
 
     @Column(name = "save_date")
     private LocalDateTime saveDate;
