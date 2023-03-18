@@ -8,8 +8,8 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 public class SecretDiaryApplication {
 
     public static final String APPLICATION_LOCATIONS = "spring.config.location="
-            + "classpath:application.properties,"
-            + "/home/ec2-user/real-application.properties";
+            + "classpath:application.properties"
+            + ",/home/ec2-user/config/real-application.properties";
 
     public static void main(String[] args) {
         new SpringApplicationBuilder(SecretDiaryApplication.class)
