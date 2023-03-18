@@ -12,5 +12,5 @@ sudo docker build --build-arg IDLE_PROFILE=${IDLE_PROFILE} -f /home/ec2-user/sec
 sleep 30
 
 echo "> 도커 컨테이너를 실행합니다." >> /home/ec2-user/deploy.log
-sudo docker run -p ${IDLE_PORT}:${IDLE_PORT} ${IDLE_PROFILE} -f /home/ec2-user/config/real-application.properties >> /home/ec2-user/spring.log 2>/home/ec2-user/deploy_err.log &
+sudo docker run -p ${IDLE_PORT}:${IDLE_PORT} ${IDLE_PROFILE} >> /home/ec2-user/spring.log 2>/home/ec2-user/deploy_err.log &
 sleep 10
