@@ -17,7 +17,7 @@ public class ExceptionAdvice {
     private final ResponseService responseService;
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public CommonResponse HandleValidationExceptions(MethodArgumentNotValidException e) {
         String message = "";
 
@@ -29,13 +29,13 @@ public class ExceptionAdvice {
     }
 
     @ExceptionHandler(RegisterFailedException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public CommonResponse HandleRegisterFailedExceptions(RegisterFailedException e) {
         return responseService.setFailedResponse(e.getMessage());
     }
 
-    @ExceptionHandler(UserNotFoundException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler({UserNotFoundException.class, DiaryNotFoundException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public CommonResponse HandleUserNotFoundExceptions(UserNotFoundException e) {
         return responseService.setFailedResponse(e.getMessage());
     }
@@ -47,7 +47,7 @@ public class ExceptionAdvice {
     }
 
     @ExceptionHandler(DiaryException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public CommonResponse HandlerDiaryException(DiaryException e) {
         return responseService.setFailedResponse(e.getMessage());
     }
