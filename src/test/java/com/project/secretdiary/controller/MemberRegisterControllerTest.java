@@ -44,7 +44,7 @@ public class MemberRegisterControllerTest {
                 MockMvcRequestBuilders.post("/api/start/register")
                         .content(userDtoJsonString)
                         .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().is5xxServerError());
+        ).andExpect(status().isBadRequest());
     }
     @Test
     @DisplayName("회원 가입 실패 - 잘못된 형식의 이메일 입력")
@@ -63,7 +63,7 @@ public class MemberRegisterControllerTest {
                 MockMvcRequestBuilders.post("/api/start/register")
                         .content(userDtoJsonString)
                         .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().is5xxServerError());
+        ).andExpect(status().isBadRequest());
     }
     @Test
     @DisplayName("회원 가입 성공")
