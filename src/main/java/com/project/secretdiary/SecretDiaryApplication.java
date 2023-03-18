@@ -13,7 +13,6 @@ public class SecretDiaryApplication {
 
     public static void main(String[] args) {
         new SpringApplicationBuilder(SecretDiaryApplication.class)
-                .properties(APPLICATION_LOCATIONS)
                 .run(args);
     }
 
