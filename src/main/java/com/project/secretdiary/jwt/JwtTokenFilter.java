@@ -1,9 +1,6 @@
 package com.project.secretdiary.jwt;
 
-import com.project.secretdiary.exception.CustomJwtException;
 import lombok.RequiredArgsConstructor;
-import org.apache.http.HttpStatus;
-import org.apache.http.protocol.HTTP;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,8 +32,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             }
         } catch (Exception e) {
             SecurityContextHolder.clearContext();
-            response.sendError(HttpStatus.SC_UNAUTHORIZED, e.getMessage());
-            return;
         }
         filterChain.doFilter(request,response);
     }
