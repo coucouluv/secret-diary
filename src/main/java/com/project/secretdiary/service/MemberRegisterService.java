@@ -17,8 +17,9 @@ public class MemberRegisterService {
     private final DuplicateMemberService duplicateMemberService;
     private final PasswordEncoder passwordEncoder;
 
-    public Long join(MemberRequest memberRequest) {
+    public Long join(final MemberRequest memberRequest) {
         validateDuplicateMember(memberRequest);
+
         MemberEntity member = MemberEntity.builder()
                 .userId(memberRequest.getUserId())
                 .password(passwordEncoder.encode(memberRequest.getPassword()))
@@ -29,7 +30,7 @@ public class MemberRegisterService {
 
     }
 
-    public void validateDuplicateMember(MemberRequest memberRequest) {
+    private void validateDuplicateMember(final MemberRequest memberRequest) {
         if(duplicateMemberService.isDuplicatedUserId(memberRequest.getUserId())) {
             throw new RegisterFailedException("동일한 아이디가 존재합니다.");
         }
