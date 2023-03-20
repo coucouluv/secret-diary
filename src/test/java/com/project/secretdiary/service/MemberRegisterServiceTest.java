@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static com.project.secretdiary.fixture.MemberFixture.회원;
+import static com.project.secretdiary.fixture.MemberFixture.회원가입_요청;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 
@@ -36,12 +37,7 @@ public class MemberRegisterServiceTest {
     void 회원가입_완료() {
         //given
         MemberEntity member = 회원();
-        MemberRequest memberRequest =  MemberRequest.builder()
-                .name("박지훈")
-                .userId("oy3319")
-                .email("156")
-                .password("werf4789")
-                .build();
+        MemberRequest memberRequest =  회원가입_요청();
 
         given(duplicateMemberService.isDuplicatedUserId(anyString()))
                 .willReturn(false);
@@ -62,12 +58,7 @@ public class MemberRegisterServiceTest {
     @DisplayName("중복 아이디가 존재할 때 예외 처리 해야한다.")
     void 중복_아이디_존재() {
         //given
-        MemberRequest memberRequest =  MemberRequest.builder()
-                .name("박쿠쿠")
-                .userId("oy5325")
-                .email("1234")
-                .password("rty4567")
-                .build();
+        MemberRequest memberRequest =  회원가입_요청();
 
         given(duplicateMemberService.isDuplicatedUserId(anyString()))
                 .willReturn(true);
@@ -80,12 +71,7 @@ public class MemberRegisterServiceTest {
     @DisplayName("중복 이메일이 존재할 때 예외 처리 해야한다.")
     void 중복_이메일_존재() {
         //given
-        MemberRequest memberRequest =  MemberRequest.builder()
-                .name("박연주")
-                .userId("oy5326")
-                .email("789")
-                .password("asdf4567")
-                .build();
+        MemberRequest memberRequest =  회원가입_요청();
 
         given(duplicateMemberService.isDuplicatedUserId(anyString()))
                 .willReturn(false);

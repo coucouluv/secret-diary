@@ -33,13 +33,14 @@ public class ExceptionAdvice {
 
     @ExceptionHandler({UserNotFoundException.class, DiaryNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse HandleUserNotFoundExceptions(UserNotFoundException e) {
+    public ErrorResponse HandleUserNotFoundExceptions(RuntimeException e) {
         return new ErrorResponse(e.getMessage());
     }
 
-    @ExceptionHandler({CustomJwtException.class, PasswordNotMatchException.class})
+    @ExceptionHandler({CustomJwtException.class, PasswordNotMatchException.class,
+                        EmailNotMatchException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse HandlerJwtException(CustomJwtException e) {
+    public ErrorResponse HandlerJwtException(RuntimeException e) {
         return new ErrorResponse(e.getMessage());
     }
 

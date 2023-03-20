@@ -40,7 +40,7 @@ public class SignController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/reissue")
+    @PostMapping("/reissue")
     public ResponseEntity<TokenResponse> reissue(final @RequestBody @Valid TokenRequest tokenRequest) {
         return ResponseEntity.ok(signService.reissue(tokenRequest));
     }

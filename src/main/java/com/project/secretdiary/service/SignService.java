@@ -6,6 +6,7 @@ import com.project.secretdiary.dto.request.SignInRequest;
 import com.project.secretdiary.dto.request.TokenRequest;
 import com.project.secretdiary.entity.MemberEntity;
 import com.project.secretdiary.exception.CustomJwtException;
+import com.project.secretdiary.exception.EmailNotMatchException;
 import com.project.secretdiary.exception.PasswordNotMatchException;
 import com.project.secretdiary.exception.UserNotFoundException;
 import com.project.secretdiary.jwt.JwtTokenProvider;
@@ -35,7 +36,7 @@ public class SignService {
     public TokenResponse signIn(final SignInRequest signInRequest) {
 
         MemberEntity member = memberRepository.findByUserId(signInRequest.getUserId())
-                .orElseThrow(() -> new UserNotFoundException());
+                .orElseThrow(UserNotFoundException::new);
 
         if(!passwordEncoder.matches(signInRequest.getPassword(), member.getPassword())) {
             throw new PasswordNotMatchException();
@@ -54,10 +55,10 @@ public class SignService {
     @Transactional
     public void findPassword(final FindMemberRequest findMemberRequest) {
         MemberEntity member = memberRepository.findByUserId(findMemberRequest.getUserId())
-                .orElseThrow(() -> new UserNotFoundException());
+                .orElseThrow(UserNotFoundException::new);
 
         if(!member.isSameEmail(findMemberRequest.getEmail())) {
-            throw new UserNotFoundException("이메일이 일치하지 않습니다.");
+            throw new EmailNotMatchException();
         }
 
         String tmpPassword = createPassword();
@@ -72,29 +73,26 @@ public class SignService {
         mailService.sendMail(mailRequest);
     }
 
-    public String createPassword() {
+    private String createPassword() {
         char[] letters = new char[] {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E',
                 'F','G','H','I','J','K','L','M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
-        String tmpPassword="";
+        StringBuilder tmpPassword= new StringBuilder();
         int index = 0;
         for(int i = 0; i < PASSWORD_LENGTH; i++) {
             index = (int) (letters.length * Math.random());
-            tmpPassword += letters[index];
+            tmpPassword.append(letters[index]);
         }
-        return tmpPassword;
+        return tmpPassword.toString();
     }
 
     public String findUserId(final String email) {
         MemberEntity member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException());
-        String userId = member.getUserId();
-        return userId;
+                .orElseThrow(UserNotFoundException::new);
+        return member.getUserId();
     }
 
     public TokenResponse reissue(final TokenRequest tokenRequest) {
-        if(!jwtTokenProvider.validateToken(tokenRequest.getRefreshToken())) {
-            throw new CustomJwtException("유효하지 않은 refresh token 입니다.");
-        }
+        validateToken(tokenRequest.getRefreshToken());
         Authentication authentication = jwtTokenProvider.getAuthentication(tokenRequest.getAccessToken());
         String refreshToken = (String)redisTemplate.opsForValue().get(authentication.getName());
 
@@ -105,7 +103,7 @@ public class SignService {
             throw new CustomJwtException("refresh token 정보가 올바르지 않습니다.");
         }
         MemberEntity member = memberRepository.findByUserId(authentication.getName())
-                .orElseThrow(() -> new UserNotFoundException());
+                .orElseThrow(UserNotFoundException::new);
 
         TokenResponse tokenResponse = jwtTokenProvider.createToken(String.valueOf(member.getId()));
 
@@ -115,10 +113,10 @@ public class SignService {
                         tokenResponse.getReExpireTime(), TimeUnit.MILLISECONDS);
         return tokenResponse;
     }
+
     public void signOut(final TokenRequest tokenRequest) {
-        if(!jwtTokenProvider.validateToken(tokenRequest.getAccessToken())) {
-            throw new CustomJwtException("유효하지 않은 access token 입니다.");
-        }
+        validateToken(tokenRequest.getAccessToken());
+
         Authentication authentication = jwtTokenProvider.getAuthentication(tokenRequest.getAccessToken());
 
         if(redisTemplate.opsForValue().get(authentication.getName()) != null) {
@@ -128,5 +126,11 @@ public class SignService {
         Long expiration = jwtTokenProvider.getExpiration(tokenRequest.getAccessToken());
         redisTemplate.opsForValue()
                 .set(tokenRequest.getAccessToken(), "logout", expiration, TimeUnit.MILLISECONDS);
+    }
+
+    private void validateToken(final String token) {
+        if(!jwtTokenProvider.validateToken(token)) {
+            throw new CustomJwtException("유효하지 않은 token 입니다.");
+        }
     }
 }

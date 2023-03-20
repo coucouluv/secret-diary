@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 
 @Getter
-@AllArgsConstructor //모든 필드 값을 파라미터로 받는 생성자 생성
-@NoArgsConstructor //기본 생성자 생성
+@AllArgsConstructor
+@NoArgsConstructor
 public class TokenRequest {
     @NotBlank(message = "access token을 입력하세요.")
     private String accessToken;

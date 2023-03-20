@@ -2,12 +2,16 @@ package com.project.secretdiary.dto.request;
 
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
+
 @Getter
-@Setter
-@NoArgsConstructor //기본 생성자 생성
-@AllArgsConstructor //모든 필드 값을 파라미터로 받는 생성자 생성
+@NoArgsConstructor
+@AllArgsConstructor
 public class FindMemberRequest {
 
+    @NotBlank(message = "이메일을 입력하세요.")
     private String email;
+
+    @NotBlank(message = "아이디를 입력하세요.")
     private String userId;
 }
