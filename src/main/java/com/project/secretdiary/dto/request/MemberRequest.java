@@ -14,7 +14,7 @@ import javax.validation.constraints.Pattern;
 public class MemberRequest {
     private Long id;
     @NotBlank(message = "아이디를 입력하세요.")
-    @Pattern(regexp = "^[a-zA-Z\\d_]{4,15}$",message = "아이디는 4~15자의 영어,한글,숫자,'_'를 입력하세요.")
+    @Pattern(regexp = "^[a-zA-Z\\d_]{4,15}$",message = "아이디는 4~15자의 영어,숫자,'_'를 입력하세요.")
     private String userId;
     @NotBlank(message = "이름을 입력하세요.")
     @Pattern(regexp = "^[가-힣a-zA-Z]{2,15}$", message = "이름은 2~15자의 영어 혹은 한글을 입력하세요.")
