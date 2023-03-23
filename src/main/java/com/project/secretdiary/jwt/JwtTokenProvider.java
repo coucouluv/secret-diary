@@ -24,10 +24,10 @@ public class JwtTokenProvider {
     @Value("${security.jwt.token.secret-key}")
     private String secretKey;
 
-    @Value("${security.jwt.token.expire-length}")
+    @Value("${security.jwt.token.access.expire-length}")
     private long acExpireTime;
 
-    @Value("${security.jwt.token.refresh-toekn-expire-length}")
+    @Value("${security.jwt.token.refresh.expire-length}")
     private long reExpireTime;
     private final CustomUserDetailsService userDetailsService;
 
