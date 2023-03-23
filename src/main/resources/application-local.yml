@@ -1,0 +1,16 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  redis:
+    host: localhost
+    port: 6379
+    password:
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/member?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: ENC(Rn/PPDRhwJHB7MoqwTFN47zeijujUAJU)
+    driver-class-name: com.mysql.cj.jdbc.Driver
+

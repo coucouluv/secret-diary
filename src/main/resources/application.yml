@@ -1,0 +1,51 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+
+  mail:
+    host: smtp.naver.com
+    port: 465
+    username: ENC(M3vKpgHJomy3Kp4ScrcNpj0MfkqZ8hK90l111Fu709s=)
+    password: ENC(IuZXYhm5zMlWJF7Oigc8mtsv38lh3rg9)
+
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.ssl.enable: true
+      mail.smtp.ssl.trust: smtp.naver.com
+
+
+security:
+  jwt:
+    token:
+      secret-key: ENC(lU/SInh6ANojvmIl+cbJbLwp+UR2R0N9)
+      access:
+        expire-length: 3600000 # 1시간
+      refresh:
+        expire-length: 1209600000 # 2주
+
+
+s3:
+  aws:
+    bucket: ENC(0aurYgSjajcyQL/FNJsu+P7J+ZLcLCSqE+wuVMrc6AQ=)
+    region: ENC(U6ecDVcEgbxViLvDNQdmHn7haswJyMTn)
+    credentials:
+      accessKey: ENC(EytwrE7w4gX5+BAA6IkMDOYjSRkWREEifSpLW19RbD4=)
+      secretKey: ENC(6q69nV7Er+TTHQY+a+FDDt+aMsnQ/oPPvHbKr8y5x9wHe4LVdr4DhnaOlj4vAizjD4Y5/qVqsf0=)
+
+
+---
+
+spring:
+  profiles:
+    active: local
+
+#---
+#
+#spring:
+#  profiles:
+#    group:
+#      prod: "real1, real2"
