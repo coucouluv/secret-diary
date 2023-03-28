@@ -1,0 +1,5 @@
+spring:
+  config:
+    activate:
+      on-profile: real1
+    import: security/application-real1.yml
