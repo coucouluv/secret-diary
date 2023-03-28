@@ -1,3 +1,3 @@
-[submodule "src/main/resources/prod"]
-path = src/main/resources/prod
-url = https://github.com/coucouluv/Security-Diary.git
+[submodule "src/main/resources/security"]
+	path = src/main/resources/security
+	url = https://github.com/coucouluv/security.git
