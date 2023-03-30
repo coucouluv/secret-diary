@@ -1,4 +1,4 @@
-package com.project.secretdiary.dto.response;
+package com.project.secretdiary.dto.response.member;
 
 import com.project.secretdiary.entity.MemberEntity;
 import lombok.Getter;

@@ -1,7 +1,7 @@
 package com.project.secretdiary.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.secretdiary.dto.request.MemberRequest;
+import com.project.secretdiary.dto.request.member.MemberRequest;
 import com.project.secretdiary.exception.RegisterFailedException;
 import com.project.secretdiary.service.MemberRegisterService;
 import org.junit.jupiter.api.Test;

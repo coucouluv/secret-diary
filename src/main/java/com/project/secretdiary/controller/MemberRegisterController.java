@@ -1,6 +1,6 @@
 package com.project.secretdiary.controller;
 
-import com.project.secretdiary.dto.request.MemberRequest;
+import com.project.secretdiary.dto.request.member.MemberRequest;
 import com.project.secretdiary.service.MemberRegisterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

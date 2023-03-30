@@ -1,10 +1,10 @@
 package com.project.secretdiary.service;
 
 import com.amazonaws.HttpMethod;
-import com.project.secretdiary.dto.request.ProfileRequest;
-import com.project.secretdiary.dto.request.ChangePwdRequest;
-import com.project.secretdiary.dto.response.MemberResponse;
-import com.project.secretdiary.dto.response.ProfileResponse;
+import com.project.secretdiary.dto.request.member.ProfileRequest;
+import com.project.secretdiary.dto.request.member.ChangePwdRequest;
+import com.project.secretdiary.dto.response.member.MemberResponse;
+import com.project.secretdiary.dto.response.member.ProfileResponse;
 import com.project.secretdiary.entity.MemberEntity;
 import com.project.secretdiary.exception.PasswordNotMatchException;
 import com.project.secretdiary.exception.UserNotFoundException;

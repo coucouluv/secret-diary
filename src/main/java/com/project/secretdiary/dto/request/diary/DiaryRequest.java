@@ -1,18 +1,16 @@
-package com.project.secretdiary.dto.request;
+package com.project.secretdiary.dto.request.diary;
 
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DiaryUpdateRequest {
+public class DiaryRequest {
 
-    @NotNull(message = "다이어리 아이디를 입력하세요.")
-    private Long diaryId;
+    @NotBlank(message = "친구 아이디를 입력하세요.")
+    private String friendUserId;
 
     @NotBlank(message = "제목을 입력하세요.")
     private String title;
@@ -21,6 +19,5 @@ public class DiaryUpdateRequest {
     private String text;
 
     private String url;
-
 
 }

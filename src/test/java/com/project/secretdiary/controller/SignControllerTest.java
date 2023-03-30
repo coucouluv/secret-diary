@@ -2,10 +2,10 @@ package com.project.secretdiary.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.secretdiary.dto.request.FindMemberRequest;
-import com.project.secretdiary.dto.request.SignInRequest;
+import com.project.secretdiary.dto.request.member.FindMemberRequest;
+import com.project.secretdiary.dto.request.member.SignInRequest;
 import com.project.secretdiary.dto.request.TokenRequest;
-import com.project.secretdiary.dto.response.TokenResponse;
+import com.project.secretdiary.dto.response.member.TokenResponse;
 import com.project.secretdiary.exception.CustomJwtException;
 import com.project.secretdiary.exception.EmailNotMatchException;
 import com.project.secretdiary.exception.PasswordNotMatchException;

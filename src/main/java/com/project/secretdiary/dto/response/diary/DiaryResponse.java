@@ -1,4 +1,4 @@
-package com.project.secretdiary.dto.response;
+package com.project.secretdiary.dto.response.diary;
 
 import com.project.secretdiary.entity.DiaryEntity;
 import lombok.*;

@@ -1,4 +1,4 @@
-package com.project.secretdiary.dto.response;
+package com.project.secretdiary.dto.response.diary;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

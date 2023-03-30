@@ -1,4 +1,4 @@
-package com.project.secretdiary.dto.request;
+package com.project.secretdiary.dto.request.member;
 
 import lombok.*;
 

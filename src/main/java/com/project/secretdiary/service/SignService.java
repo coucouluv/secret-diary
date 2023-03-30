@@ -1,8 +1,8 @@
 package com.project.secretdiary.service;
 
-import com.project.secretdiary.dto.request.FindMemberRequest;
+import com.project.secretdiary.dto.request.member.FindMemberRequest;
 import com.project.secretdiary.dto.request.MailRequest;
-import com.project.secretdiary.dto.request.SignInRequest;
+import com.project.secretdiary.dto.request.member.SignInRequest;
 import com.project.secretdiary.dto.request.TokenRequest;
 import com.project.secretdiary.entity.MemberEntity;
 import com.project.secretdiary.exception.CustomJwtException;
@@ -10,7 +10,7 @@ import com.project.secretdiary.exception.EmailNotMatchException;
 import com.project.secretdiary.exception.PasswordNotMatchException;
 import com.project.secretdiary.exception.UserNotFoundException;
 import com.project.secretdiary.jwt.JwtTokenProvider;
-import com.project.secretdiary.dto.response.TokenResponse;
+import com.project.secretdiary.dto.response.member.TokenResponse;
 import com.project.secretdiary.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;

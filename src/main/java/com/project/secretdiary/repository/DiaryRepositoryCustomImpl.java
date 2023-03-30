@@ -1,6 +1,6 @@
 package com.project.secretdiary.repository;
 
-import com.project.secretdiary.dto.response.DiaryResponse;
+import com.project.secretdiary.dto.response.diary.DiaryResponse;
 import com.project.secretdiary.entity.MemberEntity;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;

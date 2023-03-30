@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access= AccessLevel.PROTECTED)//기본 생성자 막기 위해서
 @AllArgsConstructor
 @Table(name = "friend")
-public class FriendEntity {
+public class Friend {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
