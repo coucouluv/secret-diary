@@ -1,13 +1,13 @@
 package com.project.secretdiary.controller;
 
 import com.project.secretdiary.dto.LoginMember;
-import com.project.secretdiary.dto.response.FriendResponse;
+import com.project.secretdiary.dto.response.friend.FriendPageResponse;
+import com.project.secretdiary.dto.response.friend.WaitingFriendPageResponse;
 import com.project.secretdiary.service.FriendService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,15 +38,15 @@ public class FriendController {
     }
 
     @GetMapping
-    public ResponseEntity<List<FriendResponse>> getFriends(@CurrentUser LoginMember loginMember) {
-        List<FriendResponse> friends = friendService.getFriends(loginMember.getId());
-        return ResponseEntity.ok(friends);
+    public ResponseEntity<FriendPageResponse> getFriends(@CurrentUser LoginMember loginMember, Pageable pageable) {
+
+        return ResponseEntity.ok(friendService.getFriends(loginMember.getId(), pageable));
     }
 
     @GetMapping("/waiting")
-    public ResponseEntity<List<FriendResponse>> getWaiting(@CurrentUser LoginMember loginMember) {
-        List<FriendResponse> friends = friendService.getWaitingFriendList(loginMember.getId());
-        return ResponseEntity.ok(friends);
+    public ResponseEntity<WaitingFriendPageResponse> getWaiting(@CurrentUser LoginMember loginMember,
+                                                                Pageable pageable) {
+        return ResponseEntity.ok( friendService.getFriendsWithWaiting(loginMember.getId(), pageable));
     }
 
     @DeleteMapping("/{id}")
