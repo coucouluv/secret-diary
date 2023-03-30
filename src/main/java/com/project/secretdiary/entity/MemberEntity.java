@@ -1,6 +1,6 @@
 package com.project.secretdiary.entity;
 
-import com.project.secretdiary.dto.request.ProfileRequest;
+import com.project.secretdiary.dto.request.member.ProfileRequest;
 import lombok.*;
 
 import javax.persistence.*;
