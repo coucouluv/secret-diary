@@ -1,9 +1,9 @@
 package com.project.secretdiary.controller;
 
-import com.project.secretdiary.dto.request.FindMemberRequest;
-import com.project.secretdiary.dto.request.SignInRequest;
+import com.project.secretdiary.dto.request.member.FindMemberRequest;
+import com.project.secretdiary.dto.request.member.SignInRequest;
 import com.project.secretdiary.dto.request.TokenRequest;
-import com.project.secretdiary.dto.response.TokenResponse;
+import com.project.secretdiary.dto.response.member.TokenResponse;
 import com.project.secretdiary.service.SignService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

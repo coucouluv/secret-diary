@@ -1,10 +1,10 @@
 package com.project.secretdiary.controller;
 
 import com.project.secretdiary.dto.LoginMember;
-import com.project.secretdiary.dto.request.ChangePwdRequest;
-import com.project.secretdiary.dto.request.ProfileRequest;
-import com.project.secretdiary.dto.response.MemberResponse;
-import com.project.secretdiary.dto.response.ProfileResponse;
+import com.project.secretdiary.dto.request.member.ChangePwdRequest;
+import com.project.secretdiary.dto.request.member.ProfileRequest;
+import com.project.secretdiary.dto.response.member.MemberResponse;
+import com.project.secretdiary.dto.response.member.ProfileResponse;
 import com.project.secretdiary.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

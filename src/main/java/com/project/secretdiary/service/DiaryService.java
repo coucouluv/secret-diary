@@ -1,14 +1,14 @@
 package com.project.secretdiary.service;
 
 import com.amazonaws.HttpMethod;
-import com.project.secretdiary.dto.request.DiaryRequest;
-import com.project.secretdiary.dto.request.DiaryUpdateRequest;
-import com.project.secretdiary.dto.response.DiaryDetailResponse;
-import com.project.secretdiary.dto.response.DiaryPageResponse;
-import com.project.secretdiary.dto.response.DiaryResponse;
-import com.project.secretdiary.dto.response.DiarySaveResponse;
+import com.project.secretdiary.dto.request.diary.DiaryRequest;
+import com.project.secretdiary.dto.request.diary.DiaryUpdateRequest;
+import com.project.secretdiary.dto.response.diary.DiaryDetailResponse;
+import com.project.secretdiary.dto.response.diary.DiaryPageResponse;
+import com.project.secretdiary.dto.response.diary.DiaryResponse;
+import com.project.secretdiary.dto.response.diary.DiarySaveResponse;
 import com.project.secretdiary.entity.DiaryEntity;
-import com.project.secretdiary.entity.FriendEntity;
+import com.project.secretdiary.entity.Friend;
 import com.project.secretdiary.entity.MemberEntity;
 import com.project.secretdiary.exception.DiaryException;
 import com.project.secretdiary.exception.DiaryNotFoundException;
@@ -43,7 +43,7 @@ public class DiaryService {
         MemberEntity friend = memberRepository.findByUserId(diaryRequest.getFriendUserId())
                 .orElseThrow(() -> new UserNotFoundException());
 
-        FriendEntity friendship = friendRepository.findByMemberAndFriend(member,friend)
+        Friend friendship = friendRepository.findByMemberAndFriend(member,friend)
                 .orElseThrow(()-> new FriendException("해당 친구가 존재하지 않습니다."));
 
         friendship.isCompleteStatus();

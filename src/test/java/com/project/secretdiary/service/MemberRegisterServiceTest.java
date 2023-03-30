@@ -1,6 +1,6 @@
 package com.project.secretdiary.service;
 
-import com.project.secretdiary.dto.request.MemberRequest;
+import com.project.secretdiary.dto.request.member.MemberRequest;
 import com.project.secretdiary.entity.MemberEntity;
 import com.project.secretdiary.exception.RegisterFailedException;
 import com.project.secretdiary.repository.MemberRepository;

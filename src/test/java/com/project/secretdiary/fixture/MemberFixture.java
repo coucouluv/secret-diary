@@ -1,6 +1,6 @@
 package com.project.secretdiary.fixture;
 
-import com.project.secretdiary.dto.request.MemberRequest;
+import com.project.secretdiary.dto.request.member.MemberRequest;
 import com.project.secretdiary.entity.MemberEntity;
 
 public class MemberFixture {

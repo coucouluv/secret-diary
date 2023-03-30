@@ -1,11 +1,11 @@
 package com.project.secretdiary.controller;
 
 import com.project.secretdiary.dto.LoginMember;
-import com.project.secretdiary.dto.request.DiaryRequest;
-import com.project.secretdiary.dto.request.DiaryUpdateRequest;
-import com.project.secretdiary.dto.response.DiaryDetailResponse;
-import com.project.secretdiary.dto.response.DiaryPageResponse;
-import com.project.secretdiary.dto.response.DiarySaveResponse;
+import com.project.secretdiary.dto.request.diary.DiaryRequest;
+import com.project.secretdiary.dto.request.diary.DiaryUpdateRequest;
+import com.project.secretdiary.dto.response.diary.DiaryDetailResponse;
+import com.project.secretdiary.dto.response.diary.DiaryPageResponse;
+import com.project.secretdiary.dto.response.diary.DiarySaveResponse;
 import com.project.secretdiary.service.DiaryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;

@@ -1,6 +1,6 @@
 package com.project.secretdiary.fixture;
 
-import com.project.secretdiary.dto.response.TokenResponse;
+import com.project.secretdiary.dto.response.member.TokenResponse;
 
 public class TokenFixture {
 
