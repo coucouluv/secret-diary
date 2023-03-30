@@ -1,7 +1,8 @@
 package com.project.secretdiary.service;
 
-import com.project.secretdiary.dto.response.FriendResponse;
-import com.project.secretdiary.entity.FriendEntity;
+import com.project.secretdiary.dto.response.friend.FriendPageResponse;
+import com.project.secretdiary.dto.response.friend.WaitingFriendPageResponse;
+import com.project.secretdiary.entity.Friend;
 import com.project.secretdiary.entity.FriendStatus;
 import com.project.secretdiary.entity.MemberEntity;
 import com.project.secretdiary.exception.FriendException;
@@ -9,11 +10,10 @@ import com.project.secretdiary.exception.UserNotFoundException;
 import com.project.secretdiary.repository.FriendRepository;
 import com.project.secretdiary.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -30,66 +30,49 @@ public class FriendService {
             throw new FriendException("이미 신청한 친구입니다.");
         }
 
-        FriendEntity friendEntity = FriendEntity.builder()
+        Friend friendship = Friend.builder()
                 .member(member)
                 .friend(friend)
                 .friendStatus(FriendStatus.WAITING)
                 .build();
-        friendRepository.save(friendEntity);
+        friendRepository.save(friendship);
     }
 
     public void acceptFriend(final Long id, final String friendUserId) {
         MemberEntity member = getMember(id);
         MemberEntity friend = getFriend(friendUserId);
 
-        FriendEntity friendship = getFriendShip(friend, member);
+        Friend friendship = getFriendShip(friend, member);
 
         friendship.changeFriendStatus();
 
-        FriendEntity friendEntity = FriendEntity.builder()
+        Friend anotherFriendship = Friend.builder()
                 .member(member)
                 .friend(friend)
                 .friendStatus(FriendStatus.COMPLETED)
                 .build();
-        friendRepository.save(friendEntity);
+        friendRepository.save(anotherFriendship);
     }
 
     @Transactional(readOnly = true)
-    public List<FriendResponse> getFriends(final Long id) {
-        MemberEntity member = getMember(id);
+    public FriendPageResponse getFriends(final Long id, final Pageable pageable) {
 
-        List<FriendEntity> friends = friendRepository.findByMember(member);
-        List<FriendResponse> friendList = new ArrayList<>();
-
-        for(FriendEntity friend: friends) {
-            if(friend.getFriendStatus() == FriendStatus.COMPLETED) {
-                FriendResponse friendResponse = new FriendResponse(friend.getFriend());
-                friendList.add(friendResponse);
-            }
-        }
-        return friendList;
+        Slice<MemberEntity> friends = friendRepository.findFriendWithComplete(id, pageable);
+        return FriendPageResponse.from(friends);
     }
+
     @Transactional(readOnly = true)
-    public List<FriendResponse> getWaitingFriendList(final Long id) {
-        MemberEntity member = getMember(id);
+    public WaitingFriendPageResponse getFriendsWithWaiting(final Long id, final Pageable pageable) {
 
-        List<FriendEntity> friends = friendRepository.findByFriend(member);
-        List<FriendResponse> waitingList = new ArrayList<>();
-
-        for(FriendEntity friend: friends) {
-            if(friend.getFriendStatus() == FriendStatus.WAITING) {
-                FriendResponse friendResponse = new FriendResponse(friend.getFriend());
-                waitingList.add(friendResponse);
-            }
-        }
-        return waitingList;
+        Slice<MemberEntity> friends = friendRepository.findFriendWithWaiting(id, pageable);
+        return WaitingFriendPageResponse.from(friends);
     }
 
     public void denyFriend(final Long id, final String friendUserId) {
         MemberEntity member = getMember(id);
         MemberEntity friend = getFriend(friendUserId);
 
-        FriendEntity friendship = getFriendShip(friend, member);
+        Friend friendship = getFriendShip(friend, member);
 
         friendship.isWaitingStatus();
         friendRepository.delete(friendship);
@@ -99,9 +82,9 @@ public class FriendService {
         MemberEntity member = getMember(id);
         MemberEntity friend = getFriend(friendUserId);
 
-        FriendEntity friendship = getFriendShip(member,friend);
+        Friend friendship = getFriendShip(member,friend);
 
-        FriendEntity anotherFriendship = getFriendShip(friend, member);
+        Friend anotherFriendship = getFriendShip(friend, member);
 
         friendship.isCompleteStatus();
         anotherFriendship.isCompleteStatus();
@@ -110,7 +93,7 @@ public class FriendService {
         friendRepository.delete(anotherFriendship);
     }
 
-    private FriendEntity getFriendShip(final MemberEntity member, final  MemberEntity friend) {
+    private Friend getFriendShip(final MemberEntity member, final  MemberEntity friend) {
         return friendRepository.findByMemberAndFriend(member,friend)
                 .orElseThrow(()-> new FriendException());
     }
