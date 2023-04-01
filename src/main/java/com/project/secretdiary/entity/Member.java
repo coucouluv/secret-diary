@@ -15,7 +15,7 @@ public class MemberEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, name="member_userid", length = 20)
+    @Column(nullable = false, unique = true, name="user_id", length = 20)
     private String userId;
 
     @Column(nullable = false, length = 20)
@@ -25,7 +25,7 @@ public class MemberEntity {
     @Column(nullable = false)
     private String password;
 
-    @Column(length = 100)
+    @Column(name = "status_message", length = 100)
     private String statusMessage;
     private String url;
 
