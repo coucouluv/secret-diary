@@ -18,11 +18,11 @@ public class DiaryEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="friend_id")
-    private MemberEntity friend;
+    private Member friend;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id")
-    private MemberEntity member;;
+    private Member member;;
 
     @Column(nullable = false, length = 50)
     private String title;

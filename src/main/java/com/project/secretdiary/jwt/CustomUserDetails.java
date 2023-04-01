@@ -1,6 +1,6 @@
 package com.project.secretdiary.jwt;
 
-import com.project.secretdiary.entity.MemberEntity;
+import com.project.secretdiary.entity.Member;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,7 +14,7 @@ public class CustomUserDetails implements UserDetails {
     private Long id;
     private String userId;
     private String password;
-    public CustomUserDetails(MemberEntity member) {
+    public CustomUserDetails(Member member) {
         this.id = member.getId();
         this.userId = member.getUserId();
         this.password = member.getPassword();

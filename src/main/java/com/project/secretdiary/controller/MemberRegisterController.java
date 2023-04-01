@@ -17,7 +17,7 @@ import javax.validation.Valid;
 public class MemberRegisterController {
     private final MemberRegisterService memberRegisterService;
 
-    @PostMapping("")
+    @PostMapping()
     public ResponseEntity<Void> memberRegister(
             final @RequestBody @Valid MemberRequest memberRequest) {
         memberRegisterService.join(memberRequest);

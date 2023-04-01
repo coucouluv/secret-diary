@@ -1,6 +1,6 @@
 package com.project.secretdiary.dto.response.friend;
 
-import com.project.secretdiary.entity.MemberEntity;
+import com.project.secretdiary.entity.Member;
 import lombok.Getter;
 import org.springframework.data.domain.Slice;
 
@@ -17,7 +17,7 @@ public class WaitingFriendPageResponse {
         this.friends = friends;
     }
 
-    public static WaitingFriendPageResponse from(final Slice<MemberEntity> slice) {
+    public static WaitingFriendPageResponse from(final Slice<Member> slice) {
         List<WaitingFriendResponse> friendResponses = slice.getContent()
                 .stream()
                 .map(WaitingFriendResponse::from)

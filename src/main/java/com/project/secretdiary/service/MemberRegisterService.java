@@ -1,7 +1,7 @@
 package com.project.secretdiary.service;
 
 import com.project.secretdiary.dto.request.member.MemberRequest;
-import com.project.secretdiary.entity.MemberEntity;
+import com.project.secretdiary.entity.Member;
 import com.project.secretdiary.exception.RegisterFailedException;
 import com.project.secretdiary.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class MemberRegisterService {
     public Long join(final MemberRequest memberRequest) {
         validateDuplicateMember(memberRequest);
 
-        MemberEntity member = MemberEntity.builder()
+        Member member = Member.builder()
                 .userId(memberRequest.getUserId())
                 .password(passwordEncoder.encode(memberRequest.getPassword()))
                 .name(memberRequest.getName())

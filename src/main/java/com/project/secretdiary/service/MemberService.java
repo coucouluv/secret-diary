@@ -5,7 +5,7 @@ import com.project.secretdiary.dto.request.member.ProfileRequest;
 import com.project.secretdiary.dto.request.member.ChangePwdRequest;
 import com.project.secretdiary.dto.response.member.MemberResponse;
 import com.project.secretdiary.dto.response.member.ProfileResponse;
-import com.project.secretdiary.entity.MemberEntity;
+import com.project.secretdiary.entity.Member;
 import com.project.secretdiary.exception.PasswordNotMatchException;
 import com.project.secretdiary.exception.UserNotFoundException;
 import com.project.secretdiary.repository.MemberRepository;
@@ -23,7 +23,7 @@ public class MemberService {
     private final ImageUploader imageUploader;
     @Transactional(readOnly = true)
     public MemberResponse getMember(final Long id) {
-        MemberEntity member = findMember(id);
+        Member member = findMember(id);
 
         String preSignedUrl = null;
         if(member.getUrl() != null) {
@@ -35,7 +35,7 @@ public class MemberService {
 
     @Transactional
     public void updatePassword(final Long id, final ChangePwdRequest changePwdRequest) {
-        MemberEntity member = findMember(id);
+        Member member = findMember(id);
 
         if(!passwordEncoder.matches(changePwdRequest.getPassword(), member.getPassword())) {
             throw new PasswordNotMatchException();
@@ -47,18 +47,18 @@ public class MemberService {
 
     @Transactional
     public void updateProfile(final Long id, ProfileRequest profileRequest) {
-        MemberEntity member = findMember(id);
+        Member member = findMember(id);
         member.changeProfile(profileRequest);
     }
 
     @Transactional(readOnly = true)
     public ProfileResponse getProfile(final Long id) {
-        MemberEntity member = findMember(id);
+        Member member = findMember(id);
 
         return new ProfileResponse(member.getUrl(), member.getStatusMessage());
     }
 
-    private MemberEntity findMember(final Long id) {
+    private Member findMember(final Long id) {
         return memberRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException());
     }

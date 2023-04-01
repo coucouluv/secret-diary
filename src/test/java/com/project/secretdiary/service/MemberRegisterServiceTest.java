@@ -1,7 +1,7 @@
 package com.project.secretdiary.service;
 
 import com.project.secretdiary.dto.request.member.MemberRequest;
-import com.project.secretdiary.entity.MemberEntity;
+import com.project.secretdiary.entity.Member;
 import com.project.secretdiary.exception.RegisterFailedException;
 import com.project.secretdiary.repository.MemberRepository;
 import org.assertj.core.api.Assertions;
@@ -36,7 +36,7 @@ public class MemberRegisterServiceTest {
     @DisplayName("정상적으로 회원 가입이 완료되어야 한다.")
     void 회원가입_완료() {
         //given
-        MemberEntity member = 회원();
+        Member member = 회원();
         MemberRequest memberRequest =  회원가입_요청();
 
         given(duplicateMemberService.isDuplicatedUserId(anyString()))

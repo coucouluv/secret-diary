@@ -1,7 +1,7 @@
 package com.project.secretdiary.fixture;
 
 import com.project.secretdiary.dto.request.member.MemberRequest;
-import com.project.secretdiary.entity.MemberEntity;
+import com.project.secretdiary.entity.Member;
 
 public class MemberFixture {
     public static final Long 아이디 = 1L;
@@ -20,8 +20,8 @@ public class MemberFixture {
     public static final String 상태메세지 = "message";
     public static final String 이미지 = "url";
 
-    public static MemberEntity 회원() {
-        return MemberEntity.builder()
+    public static Member 회원() {
+        return Member.builder()
                 .id(아이디)
                 .userId(회원_로그인_아이디)
                 .password(비밀번호)
@@ -33,8 +33,8 @@ public class MemberFixture {
 
     }
 
-    public static MemberEntity 친구() {
-        return MemberEntity.builder()
+    public static Member 친구() {
+        return Member.builder()
                 .id(친구_아이디)
                 .userId(친구_로그인_아이디)
                 .password(null)

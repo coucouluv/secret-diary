@@ -9,7 +9,7 @@ import com.project.secretdiary.dto.response.diary.DiaryResponse;
 import com.project.secretdiary.dto.response.diary.DiarySaveResponse;
 import com.project.secretdiary.entity.DiaryEntity;
 import com.project.secretdiary.entity.Friend;
-import com.project.secretdiary.entity.MemberEntity;
+import com.project.secretdiary.entity.Member;
 import com.project.secretdiary.exception.DiaryException;
 import com.project.secretdiary.exception.DiaryNotFoundException;
 import com.project.secretdiary.exception.FriendException;
@@ -39,8 +39,8 @@ public class DiaryService {
 
     public DiarySaveResponse saveDiary(final Long id, final DiaryRequest diaryRequest) {
 
-        MemberEntity member = getMember(id);
-        MemberEntity friend = memberRepository.findByUserId(diaryRequest.getFriendUserId())
+        Member member = getMember(id);
+        Member friend = memberRepository.findByUserId(diaryRequest.getFriendUserId())
                 .orElseThrow(() -> new UserNotFoundException());
 
         Friend friendship = friendRepository.findByMemberAndFriend(member,friend)
@@ -73,9 +73,9 @@ public class DiaryService {
     @Transactional(readOnly = true)
     public DiaryPageResponse getDiaries(final Long id, final String friendUserId,
                                         final Pageable pageable) {
-        MemberEntity member = getMember(id);
+        Member member = getMember(id);
 
-        MemberEntity friend = memberRepository.findByUserId(friendUserId)
+        Member friend = memberRepository.findByUserId(friendUserId)
                 .orElseThrow(() -> new UserNotFoundException());
 
         Slice<DiaryResponse> diaryResponses = diaryRepositoryCustomImpl
@@ -96,7 +96,7 @@ public class DiaryService {
     }
 
     public void deleteDiary(final Long id, final Long diaryId) {
-        MemberEntity member = getMember(id);
+        Member member = getMember(id);
         DiaryEntity diary = getDiary(diaryId);
 
         if(!diary.validateMember(member.getId())) {
@@ -118,7 +118,7 @@ public class DiaryService {
         return new DiaryPageResponse(diaryResponses.hasNext(), content);
     }
 
-    private MemberEntity getMember(final Long id) {
+    private Member getMember(final Long id) {
         return memberRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException());
     }
