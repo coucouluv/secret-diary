@@ -1,6 +1,6 @@
 package com.project.secretdiary.dto.response.member;
 
-import com.project.secretdiary.entity.MemberEntity;
+import com.project.secretdiary.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,7 +22,7 @@ public class MemberResponse {
         this.url = url;
     }
 
-    public static MemberResponse of(final MemberEntity member, final String preSignedUrl) {
+    public static MemberResponse of(final Member member, final String preSignedUrl) {
         return new MemberResponse(member.getUserId(), member.getName(), member.getEmail(),
                 member.getStatusMessage(), preSignedUrl);
     }

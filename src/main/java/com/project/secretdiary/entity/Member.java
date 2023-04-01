@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access= AccessLevel.PROTECTED)//기본 생성자 막기 위해서
 @Table(name = "member")
-public class MemberEntity {
+public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,8 +30,8 @@ public class MemberEntity {
     private String url;
 
     @Builder
-    public MemberEntity(final Long id, final String userId, final String name, final String email,
-                        final String password, final String statusMessage, final String url) {
+    public Member(final Long id, final String userId, final String name, final String email,
+                  final String password, final String statusMessage, final String url) {
         this.id = id;
         this.userId = userId;
         this.name = name;

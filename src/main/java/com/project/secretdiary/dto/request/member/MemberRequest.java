@@ -1,6 +1,6 @@
 package com.project.secretdiary.dto.request.member;
 
-import com.project.secretdiary.entity.MemberEntity;
+import com.project.secretdiary.entity.Member;
 import lombok.*;
 
 import javax.validation.constraints.Email;
@@ -30,7 +30,7 @@ public class MemberRequest {
     private String password;
 
 
-    public MemberRequest(MemberEntity member) {
+    public MemberRequest(Member member) {
         id = member.getId();
         userId = member.getUserId();
         name = member.getName();

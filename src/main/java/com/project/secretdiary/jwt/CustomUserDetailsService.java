@@ -1,6 +1,6 @@
 package com.project.secretdiary.jwt;
 
-import com.project.secretdiary.entity.MemberEntity;
+import com.project.secretdiary.entity.Member;
 import com.project.secretdiary.exception.UserNotFoundException;
 import com.project.secretdiary.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,13 +17,13 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        MemberEntity member = memberRepository.findByUserId(userId)
+        Member member = memberRepository.findByUserId(userId)
                 .orElseThrow(() -> new UserNotFoundException("아이디가 존재하지 않습니다."));
         return new CustomUserDetails(member);
     }
 
     public UserDetails loadUserById(Long id) {
-        MemberEntity member = memberRepository.findById(id)
+        Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 회원입니다."));
         return new CustomUserDetails(member);
     }

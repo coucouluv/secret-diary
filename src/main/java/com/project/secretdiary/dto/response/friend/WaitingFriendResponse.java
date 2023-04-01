@@ -1,6 +1,6 @@
 package com.project.secretdiary.dto.response.friend;
 
-import com.project.secretdiary.entity.MemberEntity;
+import com.project.secretdiary.entity.Member;
 import lombok.Getter;
 
 @Getter
@@ -15,7 +15,7 @@ public class WaitingFriendResponse {
         this.name = name;
     }
 
-    public static WaitingFriendResponse from(final MemberEntity member) {
+    public static WaitingFriendResponse from(final Member member) {
         return new WaitingFriendResponse(member.getId(), member.getUserId(), member.getName());
     }
 }

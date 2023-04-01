@@ -19,11 +19,11 @@ public class Friend {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="friend_id")
-    private MemberEntity friend;
+    private Member friend;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id")
-    private MemberEntity member;
+    private Member member;
 
     @Enumerated(EnumType.STRING)
     @Column(name="friend_status", length = 10)

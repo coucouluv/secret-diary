@@ -1,7 +1,7 @@
 package com.project.secretdiary.repository;
 
 import com.project.secretdiary.dto.response.diary.DiaryResponse;
-import com.project.secretdiary.entity.MemberEntity;
+import com.project.secretdiary.entity.Member;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -26,7 +26,7 @@ public class DiaryRepositoryCustomImpl implements DiaryRepositoryCustom {
     }
 
     @Override
-    public Slice<DiaryResponse> findByMemberAndFriend(MemberEntity member, MemberEntity friend, Pageable pageable) {
+    public Slice<DiaryResponse> findByMemberAndFriend(Member member, Member friend, Pageable pageable) {
         JPAQuery<DiaryResponse> jpaQuery = queryFactory
                 .select(Projections.constructor(DiaryResponse.class, diaryEntity.id,
                         diaryEntity.title, diaryEntity.url))
@@ -47,7 +47,7 @@ public class DiaryRepositoryCustomImpl implements DiaryRepositoryCustom {
         return new SliceImpl<>(diaryResponses, pageable, false);
     }
 
-    private BooleanExpression eqFriendship(MemberEntity member, MemberEntity friend) {
+    private BooleanExpression eqFriendship(Member member, Member friend) {
         if(member == null || friend == null) {
             return null;
         }

@@ -4,7 +4,7 @@ import com.project.secretdiary.dto.request.member.FindMemberRequest;
 import com.project.secretdiary.dto.request.MailRequest;
 import com.project.secretdiary.dto.request.member.SignInRequest;
 import com.project.secretdiary.dto.request.TokenRequest;
-import com.project.secretdiary.entity.MemberEntity;
+import com.project.secretdiary.entity.Member;
 import com.project.secretdiary.exception.CustomJwtException;
 import com.project.secretdiary.exception.EmailNotMatchException;
 import com.project.secretdiary.exception.PasswordNotMatchException;
@@ -35,7 +35,7 @@ public class SignService {
 
     public TokenResponse signIn(final SignInRequest signInRequest) {
 
-        MemberEntity member = memberRepository.findByUserId(signInRequest.getUserId())
+        Member member = memberRepository.findByUserId(signInRequest.getUserId())
                 .orElseThrow(UserNotFoundException::new);
 
         if(!passwordEncoder.matches(signInRequest.getPassword(), member.getPassword())) {
@@ -54,7 +54,7 @@ public class SignService {
 
     @Transactional
     public void findPassword(final FindMemberRequest findMemberRequest) {
-        MemberEntity member = memberRepository.findByUserId(findMemberRequest.getUserId())
+        Member member = memberRepository.findByUserId(findMemberRequest.getUserId())
                 .orElseThrow(UserNotFoundException::new);
 
         if(!member.isSameEmail(findMemberRequest.getEmail())) {
@@ -86,7 +86,7 @@ public class SignService {
     }
 
     public String findUserId(final String email) {
-        MemberEntity member = memberRepository.findByEmail(email)
+        Member member = memberRepository.findByEmail(email)
                 .orElseThrow(UserNotFoundException::new);
         return member.getUserId();
     }
@@ -102,7 +102,7 @@ public class SignService {
         if(!refreshToken.equals(tokenRequest.getRefreshToken())) {
             throw new CustomJwtException("refresh token 정보가 올바르지 않습니다.");
         }
-        MemberEntity member = memberRepository.findByUserId(authentication.getName())
+        Member member = memberRepository.findByUserId(authentication.getName())
                 .orElseThrow(UserNotFoundException::new);
 
         TokenResponse tokenResponse = jwtTokenProvider.createToken(String.valueOf(member.getId()));
