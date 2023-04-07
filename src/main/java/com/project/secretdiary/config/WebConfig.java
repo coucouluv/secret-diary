@@ -24,6 +24,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowCredentials(true);
 
     }
+    
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(authenticationArgumentResolver);
