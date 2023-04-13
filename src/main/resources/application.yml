@@ -17,13 +17,17 @@ spring:
       mail.smtp.ssl.enable: true
       mail.smtp.ssl.trust: smtp.naver.com
 
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 security:
   jwt:
     token:
       secret-key: ENC(lU/SInh6ANojvmIl+cbJbLwp+UR2R0N9)
       access:
-        expire-length: 3600000 # 1시간
+        expire-length: 3600000 # 1시간 1000 * 60 * 60
       refresh:
         expire-length: 1209600000 # 2주
 
