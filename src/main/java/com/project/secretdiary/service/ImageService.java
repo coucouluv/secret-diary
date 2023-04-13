@@ -41,6 +41,7 @@ public class ImageService {
             File file = new File(image.getFullPath());
             multipartFile.transferTo(file);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new FileIOException();
         }
     }
