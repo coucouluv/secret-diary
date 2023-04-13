@@ -1,6 +1,5 @@
 package com.project.secretdiary.service;
 
-import com.amazonaws.HttpMethod;
 import com.project.secretdiary.dto.request.member.ProfileRequest;
 import com.project.secretdiary.dto.request.member.ChangePwdRequest;
 import com.project.secretdiary.dto.response.member.MemberResponse;
@@ -20,17 +19,10 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    private final ImageUploader imageUploader;
     @Transactional(readOnly = true)
     public MemberResponse getMember(final Long id) {
         Member member = findMember(id);
-
-        String preSignedUrl = null;
-        if(member.getUrl() != null) {
-            preSignedUrl = imageUploader.createPreSignedUrl(member.getUrl(), HttpMethod.GET);
-        }
-
-        return MemberResponse.of(member, preSignedUrl);
+        return MemberResponse.of(member);
     }
 
     @Transactional
