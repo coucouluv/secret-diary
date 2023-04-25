@@ -5,13 +5,11 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Builder
 @Entity
 @Getter
 @NoArgsConstructor(access= AccessLevel.PROTECTED)//기본 생성자 막기 위해서
-@AllArgsConstructor
 @Table(name = "diary")
-public class DiaryEntity {
+public class Diary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,10 +27,23 @@ public class DiaryEntity {
 
     @Column(nullable = false, length = 500)
     private String text;
-    private String url; 
+
+    private String image;
 
     @Column(name = "save_date")
     private LocalDateTime saveDate;
+
+    @Builder
+    public Diary(final Long id, final Member friend, final Member member, final String title, final String text,
+                 final String image, final LocalDateTime saveDate) {
+        this.id = id;
+        this.friend = friend;
+        this.member = member;
+        this.title = title;
+        this.text = text;
+        this.image = image;
+        this.saveDate = saveDate;
+    }
 
     public boolean validateMember(final Long memberId) {
         return member.getId().equals(memberId);
@@ -42,10 +53,10 @@ public class DiaryEntity {
         return friend.getId().equals(friendId);
     }
 
-    public void update(final String title, final String text, final String url) {
+    public void update(final String title, final String text, final String image) {
         this.title = title;
         this.text = text;
-        this.url = url;
+        this.image = image;
         this.saveDate = LocalDateTime.now();
     }
 

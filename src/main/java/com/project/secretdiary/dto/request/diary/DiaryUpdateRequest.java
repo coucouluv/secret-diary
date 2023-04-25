@@ -20,7 +20,7 @@ public class DiaryUpdateRequest {
     @NotBlank(message = "내용을 입력하세요.")
     private String text;
 
-    private String url;
+    private String image;
 
 
 }

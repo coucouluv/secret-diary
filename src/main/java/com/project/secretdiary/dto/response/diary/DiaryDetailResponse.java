@@ -1,6 +1,6 @@
 package com.project.secretdiary.dto.response.diary;
 
-import com.project.secretdiary.entity.DiaryEntity;
+import com.project.secretdiary.entity.Diary;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,14 +16,14 @@ public class DiaryDetailResponse {
 
     private String text;
 
-    private String url;
+    private String image;
     private LocalDateTime saveDate;
 
-    public DiaryDetailResponse(final DiaryEntity diary) {
+    public DiaryDetailResponse(final Diary diary) {
         this.diaryId = diary.getId();
         this.title = diary.getTitle();
         this.text = diary.getText();
-        this.url = diary.getUrl();
+        this.image = diary.getImage();
         this.saveDate = diary.getSaveDate();
     }
 

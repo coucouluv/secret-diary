@@ -28,7 +28,7 @@ public class MemberFixture {
                 .name(회원_이름)
                 .email(회원_이메일)
                 .statusMessage(상태메세지)
-                .url(이미지)
+                .image(이미지)
                 .build();
 
     }

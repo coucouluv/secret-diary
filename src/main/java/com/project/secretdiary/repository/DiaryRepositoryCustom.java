@@ -6,5 +6,5 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
 public interface DiaryRepositoryCustom {
-    Slice<DiaryResponse> findByMemberAndFriend(Member member, Member friend, Pageable pageable);
+    Slice<DiaryResponse> findByMemberAndFriend(Long memberId, Long friendId, Pageable pageable);
 }

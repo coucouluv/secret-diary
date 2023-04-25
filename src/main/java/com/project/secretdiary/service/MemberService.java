@@ -47,7 +47,7 @@ public class MemberService {
     public ProfileResponse getProfile(final Long id) {
         Member member = findMember(id);
 
-        return new ProfileResponse(member.getUrl(), member.getStatusMessage());
+        return new ProfileResponse(member.getImage(), member.getStatusMessage());
     }
 
     private Member findMember(final Long id) {

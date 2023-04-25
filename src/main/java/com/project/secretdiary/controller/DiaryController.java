@@ -50,7 +50,7 @@ public class DiaryController {
 
     @GetMapping("/info/{id}")
     public ResponseEntity<DiaryPageResponse> getDiaries(@CurrentUser LoginMember loginMember,
-                                                        @PathVariable("id") String friendId, final Pageable pageable) {
+                                                        @PathVariable("id") Long friendId, final Pageable pageable) {
         return ResponseEntity.ok(diaryService.getDiaries(loginMember.getId(), friendId, pageable));
     }
 }

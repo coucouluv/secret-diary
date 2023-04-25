@@ -27,18 +27,18 @@ public class Member {
 
     @Column(name = "status_message", length = 100)
     private String statusMessage;
-    private String url;
+    private String image;
 
     @Builder
     public Member(final Long id, final String userId, final String name, final String email,
-                  final String password, final String statusMessage, final String url) {
+                  final String password, final String statusMessage, final String image) {
         this.id = id;
         this.userId = userId;
         this.name = name;
         this.email = email;
         this.password = password;
         this.statusMessage = statusMessage;
-        this.url = url;
+        this.image = image;
     }
 
     public void changePassword(final String password) {
@@ -47,7 +47,7 @@ public class Member {
 
     public void changeProfile(final ProfileRequest profileRequest) {
         this.statusMessage = profileRequest.getStatusMessage();
-        this.url = profileRequest.getUrl();
+        this.image = profileRequest.getImage();
     }
 
     public boolean isSameEmail(final String email) {

@@ -1,6 +1,5 @@
 package com.project.secretdiary.dto.response.diary;
 
-import com.project.secretdiary.entity.DiaryEntity;
 import lombok.*;
 
 @Getter
@@ -11,15 +10,12 @@ public class DiaryResponse {
 
     private String title;
 
-    private String url;
+    private String image;
 
-    public DiaryResponse(final Long diaryId, final String title, final String url) {
+    public DiaryResponse(final Long diaryId, final String title, final String image) {
         this.diaryId = diaryId;
         this.title = title;
-        this.url = url;
+        this.image = image;
     }
 
-    public void changeUrl(final String preSignedUrl) {
-        this.url = preSignedUrl;
-    }
 }

@@ -39,20 +39,7 @@ public class ExceptionAdvice {
         return new ErrorResponse(e.getMessage());
     }
 
-    @ExceptionHandler(InvalidExtensionException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse HandleInvalidExceptions(InvalidExtensionException e) {
-        return new ErrorResponse(e.getMessage());
-    }
-
-    @ExceptionHandler(FileIOException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse HandleFileIOExceptions(FileIOException e) {
-        return new ErrorResponse(e.getMessage());
-    }
-
-
-    @ExceptionHandler({UserNotFoundException.class, DiaryNotFoundException.class})
+    @ExceptionHandler({UserNotFoundException.class, DiaryNotFoundException.class, FriendNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse HandleNotFoundExceptions(RuntimeException e) {
         return new ErrorResponse(e.getMessage());
@@ -65,7 +52,7 @@ public class ExceptionAdvice {
         return new ErrorResponse(e.getMessage());
     }
 
-    @ExceptionHandler(DiaryException.class)
+    @ExceptionHandler({DiaryException.class, FriendException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse HandlerDiaryException(DiaryException e) {
         return new ErrorResponse(e.getMessage());
