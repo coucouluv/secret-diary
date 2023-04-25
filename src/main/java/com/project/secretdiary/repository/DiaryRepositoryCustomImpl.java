@@ -1,7 +1,6 @@
 package com.project.secretdiary.repository;
 
 import com.project.secretdiary.dto.response.diary.DiaryResponse;
-import com.project.secretdiary.entity.Member;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -14,7 +13,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.project.secretdiary.entity.QDiaryEntity.diaryEntity;
+import static com.project.secretdiary.entity.QDiary.diary;
+
 
 @Slf4j
 @Repository
@@ -26,16 +26,16 @@ public class DiaryRepositoryCustomImpl implements DiaryRepositoryCustom {
     }
 
     @Override
-    public Slice<DiaryResponse> findByMemberAndFriend(Member member, Member friend, Pageable pageable) {
+    public Slice<DiaryResponse> findByMemberAndFriend(Long memberId, Long friendId, Pageable pageable) {
         JPAQuery<DiaryResponse> jpaQuery = queryFactory
-                .select(Projections.constructor(DiaryResponse.class, diaryEntity.id,
-                        diaryEntity.title, diaryEntity.url))
-                .from(diaryEntity)
+                .select(Projections.constructor(DiaryResponse.class, diary.id,
+                        diary.title, diary.image))
+                .from(diary)
                 .where(
-                        eqFriendship(member,friend)
-                                .or(eqFriendship(friend,member))
+                        eqFriendship(memberId,friendId)
+                                .or(eqFriendship(friendId,memberId))
                 )
-                .orderBy(diaryEntity.saveDate.desc())
+                .orderBy(diary.saveDate.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize()+1);
         List<DiaryResponse> diaryResponses = jpaQuery.fetch();
@@ -47,10 +47,10 @@ public class DiaryRepositoryCustomImpl implements DiaryRepositoryCustom {
         return new SliceImpl<>(diaryResponses, pageable, false);
     }
 
-    private BooleanExpression eqFriendship(Member member, Member friend) {
-        if(member == null || friend == null) {
+    private BooleanExpression eqFriendship(Long memberId, Long friendId) {
+        if(memberId == null || friendId == null) {
             return null;
         }
-        return diaryEntity.friend.eq(friend).and(diaryEntity.member.eq(member));
+        return diary.friend.id.eq(friendId).and(diary.member.id.eq(memberId));
     }
 }
