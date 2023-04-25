@@ -7,12 +7,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProfileResponse {
 
-    private String url;
+    private String image;
 
     private String statusMessage;
 
-    public ProfileResponse(final String url, final String statusMessage) {
-        this.url = url;
+    public ProfileResponse(final String image, final String statusMessage) {
+        this.image = image;
         this.statusMessage = statusMessage;
     }
 }
