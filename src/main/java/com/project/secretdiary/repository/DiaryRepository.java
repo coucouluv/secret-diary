@@ -1,10 +1,10 @@
 package com.project.secretdiary.repository;
 
-import com.project.secretdiary.entity.DiaryEntity;
+import com.project.secretdiary.entity.Diary;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DiaryRepository extends JpaRepository<DiaryEntity, Long> {
+public interface DiaryRepository extends JpaRepository<Diary, Long> {
 }
 
