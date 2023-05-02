@@ -10,3 +10,8 @@
 ## 기술 스택
 
 ## 아키텍쳐
+### Infrastructure
+![image](https://user-images.githubusercontent.com/86236392/235581115-75ee9189-462b-4de7-b297-754dbe3a784c.png)
+
+### CI/CD
+![image](https://user-images.githubusercontent.com/86236392/235580860-1f393530-68c3-4585-98a9-5111be721a98.png)
