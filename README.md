@@ -8,10 +8,11 @@
 ## 서비스 소개
 
 ## 기술 스택
+![image](https://github.com/coucouluv/Secret-Diary/assets/86236392/2ee6fb06-f69d-42cf-b70d-86863392faba)
 
 ## 아키텍쳐
 ### Infrastructure
-![image](https://user-images.githubusercontent.com/86236392/235581115-75ee9189-462b-4de7-b297-754dbe3a784c.png)
+![image](https://github.com/coucouluv/Secret-Diary/assets/86236392/43c41c94-890d-4990-a10b-33012a21e814)
 
 ### CI/CD
 ![image](https://user-images.githubusercontent.com/86236392/235580860-1f393530-68c3-4585-98a9-5111be721a98.png)
