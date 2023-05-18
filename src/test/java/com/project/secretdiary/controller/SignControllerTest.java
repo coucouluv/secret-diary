@@ -5,11 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.secretdiary.dto.request.member.FindMemberRequest;
 import com.project.secretdiary.dto.request.member.SignInRequest;
 import com.project.secretdiary.dto.request.TokenRequest;
+import com.project.secretdiary.dto.request.member.TokenReissueRequest;
 import com.project.secretdiary.dto.response.member.TokenResponse;
-import com.project.secretdiary.exception.CustomJwtException;
-import com.project.secretdiary.exception.EmailNotMatchException;
-import com.project.secretdiary.exception.PasswordNotMatchException;
-import com.project.secretdiary.exception.UserNotFoundException;
+import com.project.secretdiary.exception.*;
 import com.project.secretdiary.service.SignService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -201,7 +199,7 @@ class SignControllerTest {
     public void 액세스_토큰이_유효하지_않을_때_로그아웃_실패() throws Exception {
         //given
         TokenRequest tokenRequest = new TokenRequest(액세스_토큰, 리프레시_토큰);
-        doThrow(new CustomJwtException("유효하지 않은 token 입니다.")).when(signService).signOut(any());
+        doThrow(new InvalidTokenException()).when(signService).signOut(any());
         //when
         ResultActions resultActions = mockMvc.perform(
                 post("/api/start/signout")
@@ -218,9 +216,9 @@ class SignControllerTest {
     @Test
     public void 토큰_재발급_성공() throws Exception {
         //given
-        TokenRequest tokenRequest = new TokenRequest(액세스_토큰, 리프레시_토큰);
+        TokenReissueRequest tokenReissueRequest = new TokenReissueRequest(리프레시_토큰);
         TokenResponse tokenResponse = 토큰_응답();
-        given(signService.reissue(tokenRequest))
+        given(signService.reissue(tokenReissueRequest))
                 .willReturn(tokenResponse);
         //when
         ResultActions resultActions = mockMvc.perform(
@@ -228,7 +226,7 @@ class SignControllerTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(csrf().asHeader())
-                        .content(objectMapper.writeValueAsString(tokenRequest))
+                        .content(objectMapper.writeValueAsString(tokenReissueRequest))
         );
         //then
         resultActions.andExpect(status().isOk())
