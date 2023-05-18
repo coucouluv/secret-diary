@@ -4,21 +4,17 @@ import com.project.secretdiary.dto.request.member.FindMemberRequest;
 import com.project.secretdiary.dto.request.MailRequest;
 import com.project.secretdiary.dto.request.member.SignInRequest;
 import com.project.secretdiary.dto.request.TokenRequest;
+import com.project.secretdiary.dto.request.member.TokenReissueRequest;
 import com.project.secretdiary.entity.Member;
-import com.project.secretdiary.exception.CustomJwtException;
-import com.project.secretdiary.exception.EmailNotMatchException;
-import com.project.secretdiary.exception.PasswordNotMatchException;
-import com.project.secretdiary.exception.UserNotFoundException;
+import com.project.secretdiary.exception.*;
 import com.project.secretdiary.jwt.JwtTokenProvider;
 import com.project.secretdiary.dto.response.member.TokenResponse;
 import com.project.secretdiary.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ObjectUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -45,7 +41,7 @@ public class SignService {
         TokenResponse tokenResponse = jwtTokenProvider.createToken(String.valueOf(member.getId()));
 
         redisTemplate.opsForValue()
-                .set(member.getUserId(),
+                .set(String.valueOf(member.getId()),
                         tokenResponse.getRefreshToken(),
                         tokenResponse.getReExpireTime(), TimeUnit.MILLISECONDS);
 
@@ -77,7 +73,7 @@ public class SignService {
         char[] letters = new char[] {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E',
                 'F','G','H','I','J','K','L','M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
         StringBuilder tmpPassword= new StringBuilder();
-        int index = 0;
+        int index;
         for(int i = 0; i < PASSWORD_LENGTH; i++) {
             index = (int) (letters.length * Math.random());
             tmpPassword.append(letters[index]);
@@ -91,24 +87,22 @@ public class SignService {
         return member.getUserId();
     }
 
-    public TokenResponse reissue(final TokenRequest tokenRequest) {
+    public TokenResponse reissue(final TokenReissueRequest tokenRequest) {
         validateToken(tokenRequest.getRefreshToken());
-        Authentication authentication = jwtTokenProvider.getAuthentication(tokenRequest.getAccessToken());
-        String refreshToken = (String)redisTemplate.opsForValue().get(authentication.getName());
+        String id = jwtTokenProvider.getId(tokenRequest.getRefreshToken());
+        String refreshToken = (String)redisTemplate.opsForValue().get(id);
 
-        if(ObjectUtils.isEmpty(refreshToken)) {
-            throw new CustomJwtException("잘못된 요청입니다.");
-        }
         if(!refreshToken.equals(tokenRequest.getRefreshToken())) {
-            throw new CustomJwtException("refresh token 정보가 올바르지 않습니다.");
+            throw new InvalidTokenException();
         }
-        Member member = memberRepository.findByUserId(authentication.getName())
+
+        Member member = memberRepository.findById(Long.valueOf(id))
                 .orElseThrow(UserNotFoundException::new);
 
-        TokenResponse tokenResponse = jwtTokenProvider.createToken(String.valueOf(member.getId()));
+        TokenResponse tokenResponse = jwtTokenProvider.createToken(id);
 
         redisTemplate.opsForValue()
-                .set(member.getUserId(),
+                .set(String.valueOf(member.getId()),
                         tokenResponse.getRefreshToken(),
                         tokenResponse.getReExpireTime(), TimeUnit.MILLISECONDS);
         return tokenResponse;
@@ -117,10 +111,10 @@ public class SignService {
     public void signOut(final TokenRequest tokenRequest) {
         validateToken(tokenRequest.getAccessToken());
 
-        Authentication authentication = jwtTokenProvider.getAuthentication(tokenRequest.getAccessToken());
+        Long id = Long.valueOf(jwtTokenProvider.getId(tokenRequest.getAccessToken()));
 
-        if(redisTemplate.opsForValue().get(authentication.getName()) != null) {
-            redisTemplate.delete(authentication.getName());
+        if(redisTemplate.opsForValue().get(String.valueOf(id)) != null) {
+            redisTemplate.delete(String.valueOf(id));
         }
 
         Long expiration = jwtTokenProvider.getExpiration(tokenRequest.getAccessToken());
@@ -130,7 +124,7 @@ public class SignService {
 
     private void validateToken(final String token) {
         if(!jwtTokenProvider.validateToken(token)) {
-            throw new CustomJwtException("유효하지 않은 token 입니다.");
+            throw new InvalidTokenException();
         }
     }
 }
