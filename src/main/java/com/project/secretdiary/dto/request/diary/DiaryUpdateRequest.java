@@ -11,9 +11,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class DiaryUpdateRequest {
 
-    @NotNull(message = "다이어리 아이디를 입력하세요.")
-    private Long diaryId;
-
     @NotBlank(message = "제목을 입력하세요.")
     private String title;
 
