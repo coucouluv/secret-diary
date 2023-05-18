@@ -45,11 +45,11 @@ public class Diary {
         this.saveDate = saveDate;
     }
 
-    public boolean validateMember(final Long memberId) {
+    public boolean isSameMember(final Long memberId) {
         return member.getId().equals(memberId);
     }
 
-    public boolean validateFriend(final Long friendId) {
+    public boolean isSameFriend(final Long friendId) {
         return friend.getId().equals(friendId);
     }
 

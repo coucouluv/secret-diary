@@ -17,7 +17,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/diary")
+@RequestMapping("/api/diaries")
 public class DiaryController {
     private final DiaryService diaryService;
 
@@ -28,29 +28,31 @@ public class DiaryController {
         return ResponseEntity.ok(diarySaveResponse);
     }
 
-    @PatchMapping
+    @PatchMapping("/{id}")
     public ResponseEntity<Void> updateDiary(@CurrentUser LoginMember loginMember,
+                                            @PathVariable("id") final Long diaryId,
                                             final @RequestBody @Valid DiaryUpdateRequest diaryUpdateRequest) {
-        diaryService.updateDiary(loginMember.getId(), diaryUpdateRequest);
+        diaryService.updateDiary(loginMember.getId(), diaryId, diaryUpdateRequest);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DiaryDetailResponse> getDiary(@CurrentUser LoginMember loginMember,
-                                                        @PathVariable("id") Long diaryId) {
-        return ResponseEntity.ok(diaryService.getDiary(loginMember.getId(), diaryId));
+    public ResponseEntity<DiaryDetailResponse> findDiary(@CurrentUser LoginMember loginMember,
+                                                        @PathVariable("id") final Long diaryId) {
+        return ResponseEntity.ok(diaryService.findDiary(loginMember.getId(), diaryId));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteDiary(@CurrentUser LoginMember loginMember,
-                                            @PathVariable("id") Long diaryId) {
+                                            @PathVariable("id") final Long diaryId) {
         diaryService.deleteDiary(loginMember.getId(), diaryId);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/info/{id}")
     public ResponseEntity<DiaryPageResponse> getDiaries(@CurrentUser LoginMember loginMember,
-                                                        @PathVariable("id") Long friendId, final Pageable pageable) {
+                                                        @PathVariable("id") final Long friendId,
+                                                        final Pageable pageable) {
         return ResponseEntity.ok(diaryService.getDiaries(loginMember.getId(), friendId, pageable));
     }
 }

@@ -3,6 +3,7 @@ package com.project.secretdiary.controller;
 import com.project.secretdiary.dto.request.member.FindMemberRequest;
 import com.project.secretdiary.dto.request.member.SignInRequest;
 import com.project.secretdiary.dto.request.TokenRequest;
+import com.project.secretdiary.dto.request.member.TokenReissueRequest;
 import com.project.secretdiary.dto.response.member.TokenResponse;
 import com.project.secretdiary.service.SignService;
 import lombok.RequiredArgsConstructor;
@@ -41,8 +42,8 @@ public class SignController {
     }
 
     @PostMapping("/reissue")
-    public ResponseEntity<TokenResponse> reissue(final @RequestBody @Valid TokenRequest tokenRequest) {
-        return ResponseEntity.ok(signService.reissue(tokenRequest));
+    public ResponseEntity<TokenResponse> reissue(final @RequestBody @Valid TokenReissueRequest tokenReissueRequest) {
+        return ResponseEntity.ok(signService.reissue(tokenReissueRequest));
     }
 
 }

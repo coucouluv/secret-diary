@@ -1,6 +1,6 @@
 package com.project.secretdiary.dto.response.member;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Getter;
 
 @Getter

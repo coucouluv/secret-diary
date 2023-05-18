@@ -1,6 +1,6 @@
 package com.project.secretdiary.entity;
 
-import com.project.secretdiary.exception.FriendException;
+import com.project.secretdiary.exception.InvalidFriendStatusException;
 import lombok.*;
 
 import javax.persistence.*;
@@ -30,22 +30,19 @@ public class Friend {
     private FriendStatus friendStatus;
 
     public void changeFriendStatus() {
-        if(this.friendStatus == FriendStatus.COMPLETED) {
-            throw new FriendException("이미 친구가 된 멤버입니다.");
-        }
         this.friendStatus = FriendStatus.COMPLETED;
     }
 
     public boolean isWaitingStatus() {
         if(this.friendStatus == FriendStatus.COMPLETED) {
-            throw new FriendException("이미 친구가 된 멤버입니다.");
+            throw new InvalidFriendStatusException("이미 친구가 된 멤버입니다.");
         }
         return true;
     }
 
     public boolean isCompleteStatus() {
         if(this.friendStatus == FriendStatus.WAITING) {
-            throw new FriendException("친구 요청 중인 멤버입니다.");
+            throw new InvalidFriendStatusException("친구 요청 중인 멤버입니다.");
         }
         return true;
     }
