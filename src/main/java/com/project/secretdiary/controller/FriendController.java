@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/friend")
+@RequestMapping("/api/friends")
 public class FriendController {
     private final FriendService friendService;
 
     @PostMapping("/apply/{id}")
     public ResponseEntity<Void> applyFriend(@CurrentUser LoginMember loginMember,
                                       @PathVariable("id") final String friendId) {
-        friendService.applyFriend(loginMember.getId(), friendId);
+        friendService.apply(loginMember.getId(), friendId);
         return ResponseEntity.ok().build();
 
     }
@@ -26,33 +26,33 @@ public class FriendController {
     @PostMapping("/accept/{id}")
     public ResponseEntity<Void> acceptFriend(@CurrentUser LoginMember loginMember,
                                        @PathVariable("id") final String friendId) {
-        friendService.acceptFriend(loginMember.getId(), friendId);
+        friendService.accept(loginMember.getId(), friendId);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/deny/{id}")
     public ResponseEntity<Void> denyFriend(@CurrentUser LoginMember loginMember,
                                      @PathVariable("id") final String friendId) {
-        friendService.denyFriend(loginMember.getId(), friendId);
+        friendService.deny(loginMember.getId(), friendId);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
     public ResponseEntity<FriendPageResponse> getFriends(@CurrentUser LoginMember loginMember, Pageable pageable) {
 
-        return ResponseEntity.ok(friendService.getFriends(loginMember.getId(), pageable));
+        return ResponseEntity.ok(friendService.findFriends(loginMember.getId(), pageable));
     }
 
     @GetMapping("/waiting")
     public ResponseEntity<WaitingFriendPageResponse> getWaiting(@CurrentUser LoginMember loginMember,
                                                                 Pageable pageable) {
-        return ResponseEntity.ok( friendService.getFriendsWithWaiting(loginMember.getId(), pageable));
+        return ResponseEntity.ok( friendService.findFriendsWithWaiting(loginMember.getId(), pageable));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFriend(@CurrentUser LoginMember loginMember,
                                        @PathVariable("id") final String friendId) {
-        friendService.deleteFriend(loginMember.getId(), friendId);
+        friendService.delete(loginMember.getId(), friendId);
         return ResponseEntity.ok().build();
     }
 }

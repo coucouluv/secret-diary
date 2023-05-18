@@ -19,8 +19,8 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/info")
-    public ResponseEntity<MemberResponse> getMember(@CurrentUser LoginMember loginMember) {
-        return ResponseEntity.ok(memberService.getMember(loginMember.getId()));
+    public ResponseEntity<MemberResponse> findMember(@CurrentUser LoginMember loginMember) {
+        return ResponseEntity.ok(memberService.findMember(loginMember.getId()));
     }
 
     @PostMapping("/info/password")
@@ -38,10 +38,8 @@ public class MemberController {
     }
 
     @GetMapping("/info/profile")
-    public ResponseEntity<ProfileResponse> getProfile(@CurrentUser LoginMember loginMember) {
-        return ResponseEntity.ok(memberService.getProfile(loginMember.getId()));
+    public ResponseEntity<ProfileResponse> findProfile(@CurrentUser LoginMember loginMember) {
+        return ResponseEntity.ok(memberService.findProfile(loginMember.getId()));
     }
-
-    //멤버 탈퇴
 
 }
