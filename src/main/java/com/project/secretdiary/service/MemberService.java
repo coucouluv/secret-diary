@@ -20,14 +20,14 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
-    public MemberResponse getMember(final Long id) {
-        Member member = findMember(id);
+    public MemberResponse findMember(final Long id) {
+        Member member = getMember(id);
         return MemberResponse.of(member);
     }
 
     @Transactional
     public void updatePassword(final Long id, final ChangePwdRequest changePwdRequest) {
-        Member member = findMember(id);
+        Member member = getMember(id);
 
         if(!passwordEncoder.matches(changePwdRequest.getPassword(), member.getPassword())) {
             throw new PasswordNotMatchException();
@@ -39,18 +39,18 @@ public class MemberService {
 
     @Transactional
     public void updateProfile(final Long id, ProfileRequest profileRequest) {
-        Member member = findMember(id);
+        Member member = getMember(id);
         member.changeProfile(profileRequest);
     }
 
     @Transactional(readOnly = true)
-    public ProfileResponse getProfile(final Long id) {
-        Member member = findMember(id);
+    public ProfileResponse findProfile(final Long id) {
+        Member member = getMember(id);
 
         return new ProfileResponse(member.getImage(), member.getStatusMessage());
     }
 
-    private Member findMember(final Long id) {
+    private Member getMember(final Long id) {
         return memberRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException());
     }
