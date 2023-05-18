@@ -2,13 +2,11 @@ package com.project.secretdiary.error;
 
 import com.project.secretdiary.exception.*;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
-import org.apache.tomcat.util.http.fileupload.impl.SizeException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
@@ -16,45 +14,30 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ExceptionAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse HandleValidationExceptions(MethodArgumentNotValidException e) {
+    public ResponseEntity<ErrorResponse> HandleValidationExceptions(MethodArgumentNotValidException e) {
         String message = "";
 
         for(ObjectError error: e.getBindingResult().getAllErrors()) {
             message = error.getDefaultMessage();
             break;
         }
-        return new ErrorResponse(message);
+        ErrorResponse errorResponse = new ErrorResponse(message);
+        return ResponseEntity.badRequest().body(errorResponse);
     }
 
-    @ExceptionHandler(FileSizeLimitExceededException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse HandleValidationExceptions(SizeException e) {
-        return new ErrorResponse("10MB 이하의 파일만 업로드 가능합니다.");
-    }
-
-    @ExceptionHandler(RegisterFailedException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse HandleRegisterFailedExceptions(RegisterFailedException e) {
-        return new ErrorResponse(e.getMessage());
-    }
 
     @ExceptionHandler({UserNotFoundException.class, DiaryNotFoundException.class, FriendNotFoundException.class})
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse HandleNotFoundExceptions(RuntimeException e) {
-        return new ErrorResponse(e.getMessage());
+    public ResponseEntity<ErrorResponse> HandleNotFoundExceptions(RuntimeException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
-    @ExceptionHandler({CustomJwtException.class, PasswordNotMatchException.class,
-                        EmailNotMatchException.class})
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse HandlerJwtException(RuntimeException e) {
-        return new ErrorResponse(e.getMessage());
+    @ExceptionHandler({InvalidTokenException.class, PasswordNotMatchException.class,
+                        EmailNotMatchException.class, NotDiaryMemberException.class,
+                        InvalidFriendStatusException.class, RegisterFailedException.class})
+    public ResponseEntity<ErrorResponse> HandleBadRequestException(RuntimeException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
+        return ResponseEntity.badRequest().body(errorResponse);
     }
 
-    @ExceptionHandler({DiaryException.class, FriendException.class})
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse HandlerDiaryException(DiaryException e) {
-        return new ErrorResponse(e.getMessage());
-    }
 }
