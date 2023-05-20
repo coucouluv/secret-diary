@@ -1,5 +1,6 @@
 package com.project.secretdiary.repository;
 
+import com.project.secretdiary.dto.request.diary.DiariesRequest;
 import com.project.secretdiary.dto.response.diary.DiaryResponse;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -26,25 +27,19 @@ public class DiaryRepositoryCustomImpl implements DiaryRepositoryCustom {
     }
 
     @Override
-    public Slice<DiaryResponse> findByMemberAndFriend(Long memberId, Long friendId, Pageable pageable) {
+    public List<DiaryResponse> findByMemberAndFriend(Long memberId, Long friendId, DiariesRequest diariesRequest) {
         JPAQuery<DiaryResponse> jpaQuery = queryFactory
                 .select(Projections.constructor(DiaryResponse.class, diary.id,
                         diary.title, diary.image))
                 .from(diary)
                 .where(
+                        ltDiaryId(diariesRequest.getId()),
                         eqFriendship(memberId,friendId)
                                 .or(eqFriendship(friendId,memberId))
                 )
-                .orderBy(diary.saveDate.desc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize()+1);
-        List<DiaryResponse> diaryResponses = jpaQuery.fetch();
-
-        if(diaryResponses.size() > pageable.getPageSize()) {
-            diaryResponses.remove(pageable.getPageSize());
-            return new SliceImpl<>(diaryResponses, pageable, true);
-        }
-        return new SliceImpl<>(diaryResponses, pageable, false);
+                .orderBy(diary.id.desc())
+                .limit(diariesRequest.getSize()+1);
+        return jpaQuery.fetch();
     }
 
     private BooleanExpression eqFriendship(Long memberId, Long friendId) {
@@ -52,5 +47,12 @@ public class DiaryRepositoryCustomImpl implements DiaryRepositoryCustom {
             return null;
         }
         return diary.friend.id.eq(friendId).and(diary.member.id.eq(memberId));
+    }
+
+    private BooleanExpression ltDiaryId(Long diaryId) {
+        if(diaryId == null) {
+            return null;
+        }
+        return diary.id.lt(diaryId);
     }
 }
