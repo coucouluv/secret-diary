@@ -1,7 +1,7 @@
 package com.project.secretdiary.service;
 
 import com.project.secretdiary.dto.request.member.ProfileRequest;
-import com.project.secretdiary.dto.request.member.ChangePwdRequest;
+import com.project.secretdiary.dto.request.member.ChangePasswordRequest;
 import com.project.secretdiary.dto.response.member.MemberResponse;
 import com.project.secretdiary.dto.response.member.ProfileResponse;
 import com.project.secretdiary.entity.Member;
@@ -26,14 +26,14 @@ public class MemberService {
     }
 
     @Transactional
-    public void updatePassword(final Long id, final ChangePwdRequest changePwdRequest) {
+    public void updatePassword(final Long id, final ChangePasswordRequest changePasswordRequest) {
         Member member = getMember(id);
 
-        if(!passwordEncoder.matches(changePwdRequest.getPassword(), member.getPassword())) {
+        if(!passwordEncoder.matches(changePasswordRequest.getPassword(), member.getPassword())) {
             throw new PasswordNotMatchException();
         }
 
-        member.changePassword(passwordEncoder.encode(changePwdRequest.getChangePassword()));
+        member.changePassword(passwordEncoder.encode(changePasswordRequest.getChangePassword()));
 
     }
 
