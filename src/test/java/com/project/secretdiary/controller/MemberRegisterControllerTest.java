@@ -13,6 +13,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import static com.project.secretdiary.fixture.MemberFixture.아이디;
 import static com.project.secretdiary.fixture.MemberFixture.회원가입_요청;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -39,7 +40,7 @@ class MemberRegisterControllerTest {
         MemberRequest memberRequest = 회원가입_요청();
 
         given(memberRegisterService.join(memberRequest))
-                .willReturn(memberRequest.getId());
+                .willReturn(아이디);
 
         //when
         ResultActions resultActions = mockMvc.perform(

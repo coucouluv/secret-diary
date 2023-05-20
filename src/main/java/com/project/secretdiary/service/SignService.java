@@ -28,6 +28,7 @@ public class SignService {
     private final RedisTemplate redisTemplate;
     private final MailService mailService;
     private static final int PASSWORD_LENGTH = 10;
+    private static final String EMAIL_TITLE_FOR_PASSWORD = "[너와 나의 비밀 일기장] 임시 비밀번호 안내 메일입니다.";
 
     public TokenResponse signIn(final SignInRequest signInRequest) {
 
@@ -60,11 +61,8 @@ public class SignService {
         String tmpPassword = createPassword();
         member.changePassword(passwordEncoder.encode(tmpPassword));
 
-        MailRequest mailRequest = new MailRequest();
-        mailRequest.setAddress(findMemberRequest.getEmail());
-        mailRequest.setTitle("[너와 나의 비밀 일기장] 임시 비밀번호 안내 메일입니다.");
-        mailRequest.setMessage("안녕하세요. [너와 나의 일기장] 에서 임시 비밀번호를 알려 드립니다.\n" +
-                findMemberRequest.getUserId() +" 님의 임시 비밀번호는 " + tmpPassword + " 입니다." );
+        MailRequest mailRequest = new MailRequest(findMemberRequest.getEmail(), EMAIL_TITLE_FOR_PASSWORD,
+                findMemberRequest.getUserId() +" 님의 임시 비밀번호는 " + tmpPassword + " 입니다.");
 
         mailService.sendMail(mailRequest);
     }

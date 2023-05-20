@@ -1,10 +1,12 @@
 package com.project.secretdiary.service;
 
+import com.project.secretdiary.dto.request.MailRequest;
 import com.project.secretdiary.dto.response.friend.FriendPageResponse;
 import com.project.secretdiary.dto.response.friend.WaitingFriendPageResponse;
 import com.project.secretdiary.entity.Friend;
 import com.project.secretdiary.entity.FriendStatus;
 import com.project.secretdiary.entity.Member;
+import com.project.secretdiary.exception.ExistingUserException;
 import com.project.secretdiary.exception.InvalidFriendStatusException;
 import com.project.secretdiary.exception.FriendNotFoundException;
 import com.project.secretdiary.exception.UserNotFoundException;
@@ -22,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class FriendService {
     private final MemberRepository memberRepository;
     private final FriendRepository friendRepository;
+    private final MailService mailService;
 
     public void apply(final Long id, final String friendUserId) {
         Member member = getMember(id);
@@ -77,6 +80,20 @@ public class FriendService {
 
         friendRepository.delete(friendship);
         friendRepository.delete(anotherFriendship);
+    }
+
+    public void invite(final Long id, final String email) {
+        Member member = getMember(id);
+        existsMember(email);
+        MailRequest mailRequest = new MailRequest(email, "[너와 나의 비밀 일기장] " + member.getUserId()+
+                " 님이 보내는 초대장", "secret-diary.site 로 초대합니다.");
+        mailService.sendMail(mailRequest);
+    }
+
+    private void existsMember(final String email) {
+        if(memberRepository.existsByEmail(email)) {
+            throw new ExistingUserException();
+        }
     }
 
     private Friend acceptFriend(final Member member, final Member friend) {

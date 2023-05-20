@@ -22,35 +22,35 @@ public class DiaryController {
     private final DiaryService diaryService;
 
     @PostMapping
-    public ResponseEntity<DiarySaveResponse> saveDiary(@CurrentUser LoginMember loginMember,
+    public ResponseEntity<DiarySaveResponse> saveDiary(@CurrentUser final LoginMember loginMember,
                                                        final @RequestBody @Valid DiaryRequest diaryRequest) {
         DiarySaveResponse diarySaveResponse = diaryService.saveDiary(loginMember.getId(), diaryRequest);
         return ResponseEntity.ok(diarySaveResponse);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Void> updateDiary(@CurrentUser LoginMember loginMember,
+    public ResponseEntity<Void> updateDiary(@CurrentUser final LoginMember loginMember,
                                             @PathVariable("id") final Long diaryId,
-                                            final @RequestBody @Valid DiaryUpdateRequest diaryUpdateRequest) {
+                                            @RequestBody @Valid final DiaryUpdateRequest diaryUpdateRequest) {
         diaryService.updateDiary(loginMember.getId(), diaryId, diaryUpdateRequest);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DiaryDetailResponse> findDiary(@CurrentUser LoginMember loginMember,
+    public ResponseEntity<DiaryDetailResponse> findDiary(@CurrentUser final LoginMember loginMember,
                                                         @PathVariable("id") final Long diaryId) {
         return ResponseEntity.ok(diaryService.findDiary(loginMember.getId(), diaryId));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDiary(@CurrentUser LoginMember loginMember,
+    public ResponseEntity<Void> deleteDiary(@CurrentUser final LoginMember loginMember,
                                             @PathVariable("id") final Long diaryId) {
         diaryService.deleteDiary(loginMember.getId(), diaryId);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/info/{id}")
-    public ResponseEntity<DiaryPageResponse> getDiaries(@CurrentUser LoginMember loginMember,
+    public ResponseEntity<DiaryPageResponse> getDiaries(@CurrentUser final LoginMember loginMember,
                                                         @PathVariable("id") final Long friendId,
                                                         final Pageable pageable) {
         return ResponseEntity.ok(diaryService.getDiaries(loginMember.getId(), friendId, pageable));

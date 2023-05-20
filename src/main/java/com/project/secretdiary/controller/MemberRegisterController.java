@@ -19,7 +19,7 @@ public class MemberRegisterController {
 
     @PostMapping()
     public ResponseEntity<Void> memberRegister(
-            final @RequestBody @Valid MemberRequest memberRequest) {
+            @RequestBody @Valid final MemberRequest memberRequest) {
         memberRegisterService.join(memberRequest);
         return ResponseEntity.ok().build();
     }

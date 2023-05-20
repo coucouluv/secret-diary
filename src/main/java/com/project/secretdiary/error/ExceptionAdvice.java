@@ -34,7 +34,7 @@ public class ExceptionAdvice {
 
     @ExceptionHandler({InvalidTokenException.class, PasswordNotMatchException.class,
                         EmailNotMatchException.class, NotDiaryMemberException.class,
-                        InvalidFriendStatusException.class, RegisterFailedException.class})
+                        InvalidFriendStatusException.class, RegisterFailedException.class, ExistingUserException.class})
     public ResponseEntity<ErrorResponse> HandleBadRequestException(RuntimeException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
         return ResponseEntity.badRequest().body(errorResponse);

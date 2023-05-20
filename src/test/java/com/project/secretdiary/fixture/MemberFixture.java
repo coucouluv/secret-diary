@@ -45,11 +45,11 @@ public class MemberFixture {
     }
 
     public static MemberRequest 회원가입_요청() {
-        return new MemberRequest(아이디, 회원_로그인_아이디, 회원_이름, 회원_이메일, 비밀번호);
+        return new MemberRequest(회원_로그인_아이디, 회원_이름, 회원_이메일, 비밀번호);
     }
 
     public static MemberRequest 친구_DTO() {
-        return new MemberRequest(친구_아이디, 친구_로그인_아이디, 친구_이름, 친구_이메일, null);
+        return new MemberRequest(친구_로그인_아이디, 친구_이름, 친구_이메일, null);
 
     }
 
