@@ -57,9 +57,8 @@ public class DiaryService {
         List<DiaryResponse> diaryResponses = diaryRepositoryCustomImpl
                 .findByMemberAndFriend(memberId, friendId, diariesRequest);
 
-        Long nextId = diaryResponses.get(diaryResponses.size()-1).getDiaryId();
         boolean hasNext = hasNext(diaryResponses, diariesRequest.getSize());
-        return new DiaryPageResponse(hasNext, nextId, diaryResponses);
+        return new DiaryPageResponse(hasNext, nextId(diaryResponses), diaryResponses);
     }
 
     @Transactional(readOnly = true)
@@ -77,6 +76,13 @@ public class DiaryService {
 
         validateMember(diary, member.getId());
         diaryRepository.delete(diary);
+    }
+
+    private Long nextId(final List<DiaryResponse> diaryResponses) {
+        if(diaryResponses.size() > 0) {
+            return diaryResponses.get(diaryResponses.size() - 1).getDiaryId();
+        }
+        return null;
     }
 
     private boolean hasNext(final List<DiaryResponse> diaryResponses, final int size) {
