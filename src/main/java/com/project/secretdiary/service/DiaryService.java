@@ -63,8 +63,7 @@ public class DiaryService {
     public DiaryDetailResponse findDiary(final Long memberId, final Long diaryId) {
 
         Diary diary = getDiary(diaryId);
-        validateMember(diary, memberId);
-        validateFriend(diary, memberId);
+        validateMemberAndFriend(diary, memberId);
 
         return new DiaryDetailResponse(diary);
     }
@@ -77,8 +76,8 @@ public class DiaryService {
         diaryRepository.delete(diary);
     }
 
-    private void validateFriend(final Diary diary, final Long memberId) {
-        if(!diary.isSameFriend(memberId)) {
+    private void validateMemberAndFriend(final Diary diary, final Long memberId) {
+        if(!diary.isSameMember(memberId) && !diary.isSameFriend(memberId)) {
             throw new NotDiaryMemberException();
         }
     }
