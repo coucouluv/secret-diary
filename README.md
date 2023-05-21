@@ -5,6 +5,11 @@
 <p align = "center"> 친구와 함께 비밀 일기를 작성해볼까요? </p>
 <br/>
 
+### [서비스 이용하기](https://secret-diary.site)
+### [프론트엔드 Repository](https://github.com/coucouluv/secret-diary-front)
+### [이미지 서버 Repository](https://github.com/coucouluv/image-server)
+<br/>
+
 ## 서비스 소개
 
 ## 기술 스택
