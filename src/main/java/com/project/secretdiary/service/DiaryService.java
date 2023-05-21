@@ -1,5 +1,6 @@
 package com.project.secretdiary.service;
 
+import com.project.secretdiary.dto.request.diary.DiariesRequest;
 import com.project.secretdiary.dto.request.diary.DiaryRequest;
 import com.project.secretdiary.dto.request.diary.DiaryUpdateRequest;
 import com.project.secretdiary.dto.response.diary.DiaryDetailResponse;
@@ -15,10 +16,10 @@ import com.project.secretdiary.repository.DiaryRepositoryCustomImpl;
 import com.project.secretdiary.repository.FriendRepository;
 import com.project.secretdiary.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -51,12 +52,13 @@ public class DiaryService {
     }
 
     @Transactional(readOnly = true)
-    public DiaryPageResponse getDiaries(final Long memberId, final Long friendId,
-                                        final Pageable pageable) {
+    public DiaryPageResponse getDiaries(final Long memberId, final Long friendId, final DiariesRequest diariesRequest) {
 
-        Slice<DiaryResponse> diaryResponses = diaryRepositoryCustomImpl
-                .findByMemberAndFriend(memberId, friendId, pageable);
-        return new DiaryPageResponse(diaryResponses.hasNext(), diaryResponses.getContent());
+        List<DiaryResponse> diaryResponses = diaryRepositoryCustomImpl
+                .findByMemberAndFriend(memberId, friendId, diariesRequest);
+
+        boolean hasNext = hasNext(diaryResponses, diariesRequest.getSize());
+        return new DiaryPageResponse(hasNext, nextId(diaryResponses), diaryResponses);
     }
 
     @Transactional(readOnly = true)
@@ -65,7 +67,7 @@ public class DiaryService {
         Diary diary = getDiary(diaryId);
         validateMemberAndFriend(diary, memberId);
 
-        return new DiaryDetailResponse(diary);
+        return DiaryDetailResponse.of(diary, memberId);
     }
 
     public void deleteDiary(final Long memberId, final Long diaryId) {
@@ -76,6 +78,20 @@ public class DiaryService {
         diaryRepository.delete(diary);
     }
 
+    private Long nextId(final List<DiaryResponse> diaryResponses) {
+        if(diaryResponses.size() > 0) {
+            return diaryResponses.get(diaryResponses.size() - 1).getDiaryId();
+        }
+        return null;
+    }
+
+    private boolean hasNext(final List<DiaryResponse> diaryResponses, final int size) {
+        if(diaryResponses.size() > size) {
+            diaryResponses.remove(size);
+            return true;
+        }
+        return false;
+    }
     private void validateMemberAndFriend(final Diary diary, final Long memberId) {
         if(!diary.isSameMember(memberId) && !diary.isSameFriend(memberId)) {
             throw new NotDiaryMemberException();

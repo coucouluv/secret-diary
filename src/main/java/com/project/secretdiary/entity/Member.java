@@ -54,4 +54,8 @@ public class Member {
         return this.email.equals(email);
     }
 
+    public boolean isSameId(final Long id) {
+        return this.id.equals(id);
+    }
+
 }

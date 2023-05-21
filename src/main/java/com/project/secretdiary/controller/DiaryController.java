@@ -1,6 +1,7 @@
 package com.project.secretdiary.controller;
 
 import com.project.secretdiary.dto.LoginMember;
+import com.project.secretdiary.dto.request.diary.DiariesRequest;
 import com.project.secretdiary.dto.request.diary.DiaryRequest;
 import com.project.secretdiary.dto.request.diary.DiaryUpdateRequest;
 import com.project.secretdiary.dto.response.diary.DiaryDetailResponse;
@@ -8,7 +9,6 @@ import com.project.secretdiary.dto.response.diary.DiaryPageResponse;
 import com.project.secretdiary.dto.response.diary.DiarySaveResponse;
 import com.project.secretdiary.service.DiaryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,10 +49,10 @@ public class DiaryController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/info/{id}")
+    @GetMapping("/{friendId}/friends")
     public ResponseEntity<DiaryPageResponse> getDiaries(@CurrentUser final LoginMember loginMember,
-                                                        @PathVariable("id") final Long friendId,
-                                                        final Pageable pageable) {
-        return ResponseEntity.ok(diaryService.getDiaries(loginMember.getId(), friendId, pageable));
+                                                        @PathVariable("friendId") final Long friendId,
+                                                        @ModelAttribute @Valid DiariesRequest diariesRequest) {
+        return ResponseEntity.ok(diaryService.getDiaries(loginMember.getId(), friendId, diariesRequest));
     }
 }
